@@ -4,7 +4,7 @@ const app = express();
 
 // 요청과 응답 시 요청의 본문을 지정한 형태로 파싱해주는 미들웨어
 const bodyParser = require('body-parser');
-app.unsubscribe(bodyParser.urlencoded({extended : true}));
+app.use(bodyParser.urlencoded({extended : true}));
 
 // 웹사이트에서 데이터 추출하기 위해
 const axios = require('axios');
@@ -21,29 +21,46 @@ app.listen(8080, function() {
     console.log('listening on 8080')
 });
 
-// 데이터를 가져오고 추출하는 함수
-async function fetchMenu() {
+const puppeteer = require('puppeteer');
+
+
+async function fetchDataAfterClick() {
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
+  
     try {
-        const url = 'https://wis.hufs.ac.kr/jsp/HUFS/cafeteria/viewWeek.jsp?startDt=20240429&endDt=20240505&caf_name=%ED%9B%84%EC%83%9D%EA%B4%80+%ED%95%99%EC%83%9D%EC%8B%9D%EB%8B%B9&caf_id=h203';
-        const response = await axios.get(url);
-        const $ = cheerio.load(response.data);
-
-        // 메뉴 목록을 담을 배열
-        const menuList = [];
-
-        // 메뉴 정보가 있는 테이블의 각 행을 선택하여 데이터 추출
-        $('table tr td').each((index, element) => {
-            // 각 행의 텍스트를 가져와서 배열에 추가
-            const menuText = $(element).text().trim();
-            menuList.push(menuText);
-        });
-        console.log(menuList);
-        return menuList;
+      await page.goto('http://coop.hufs.ac.kr/sub/welfare_02.php');
+  
+      // 페이지 컨텍스트 내에 goMenu 함수를 정의
+      await page.evaluate(() => {
+        window.goMenu = (arg1, arg2) => {
+          // goMenu 함수의 내용을 여기에 정의
+          console.log(arg1, arg2);
+        };
+      });
+  
+      // 클릭 이벤트 발생을 위해 JavaScript 함수 실행
+      await page.evaluate(() => {
+        goMenu('h203', '후생관 학생식당');
+      });
+  
+      // 클릭 후 데이터가 로드될 때까지 대기 (예: AJAX 요청 완료)
+      await page.waitForSelector('body > form > table > tbody > tr:nth-child(2) > td:nth-child(2) > table > tbody > tr:nth-child(2) > td');
+  
+      // 클릭 후 나타나는 데이터 추출
+      const data = await page.evaluate(() => {
+        const resultElement = document.querySelector('body > form > table > tbody > tr:nth-child(2) > td:nth-child(2) > table > tbody > tr:nth-child(2) > td');
+        return resultElement ? resultElement.textContent.trim() : null;
+      });
+  
+      return data;
     } catch (error) {
-        console.error('Error fetching menu:', error);
-        return null;
+      console.error('Error fetching data:', error);
+      return null;
+    } finally {
+      await browser.close();
     }
-}
+  }
 
 // /로 들어오면 index.ejs 보내줌
 app.get('/', function(요청, 응답) {
@@ -53,7 +70,7 @@ app.get('/', function(요청, 응답) {
 app.get('/menu', async (req, res) => {
     try {
         // 데이터 가져오기
-        const data = await fetchMenu();
+        const data = await fetchDataAfterClick();
 
         // 데이터를 menu.ejs에 렌더링하여 응답
         res.render('menu.ejs', { data });
