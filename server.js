@@ -22,6 +22,7 @@ app.listen(8080, function() {
     console.log('listening on 8080')
 });
 
+// 크롤링 함수
 async function fetchData() {
     try {
         const browser = await puppeteer.launch();
@@ -29,21 +30,43 @@ async function fetchData() {
         await page.goto('https://www.hufs.ac.kr/hufs/11319/subview.do');
         const content = await page.content();
 
-        const $ = cheerio.load(content);
-        const dataArray = [];
-
-        const path = '#menuTableDiv > table > tbody > tr > td > ul > li'
-        const data = $(path);
-        data.each((index, list) => {
-            const text = $(list).text();
-            console.log('text is ', text)
-        })
-
-        return dataArray;
-    } catch(error) {
+        const menu_list = parseMenuContent(content);
+        
+        await browser.close();
+        
+        return menu_list;
+    } catch (error) {
         console.error('Error fetching data: ', error);
         return null;
     }
+}
+
+function parseMenuContent(content) {
+    const cheerio = require('cheerio');
+    const $ = cheerio.load(content);
+
+    const menu_path = '#menuTableDiv > table > tbody > tr > td';
+    const menu_data = $(menu_path);
+
+    const menu_list = [];
+    menu_data.each((index, list) => {
+        const sub_menu_list = [];
+        // td의 내용이 메뉴없음이면 그 텍스트 출력
+        if ($(list).text() === "등록된 메뉴가없습니다.") {
+            sub_menu_list.push($(list).text());
+        // td에 바로 내용이 있는게 아니면
+        } else {
+            // li텍스트만
+            $(list).find('li').each(function() {
+                const text = $(this).text().trim();
+                if (text !== "")
+                    sub_menu_list.push(text);
+            });
+        }
+        menu_list.push(sub_menu_list);
+    });
+
+    return menu_list;
 }
 
 // /로 들어오면 index.ejs 보내줌
@@ -55,7 +78,8 @@ app.get('/', function(요청, 응답) {
 app.get('/menu', async (req, res) => {
     try {
         const data = await fetchData();
-        res.render('menu.ejs', { data });
+        console.log(data);
+        res.render('menu.ejs', { "menu_list" : data });
     } catch (error) {
         console.error('Error rendering menu:', error);
         res.status(500).send('Internal Server Error');
