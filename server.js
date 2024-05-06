@@ -7,8 +7,6 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({extended : true}));
 
 // 웹사이트에서 데이터 추출하기 위해
-const axios = require('axios');
-const cheerio = require('cheerio');
 const puppeteer = require('puppeteer');
 
 // ejs 파일(html 내에서 js 문법 사용 가능)
@@ -42,6 +40,7 @@ async function fetchData() {
 }
 
 function parseMenuContent(content) {
+    // 데이터 추출하기 위해
     const cheerio = require('cheerio');
     const $ = cheerio.load(content);
 
