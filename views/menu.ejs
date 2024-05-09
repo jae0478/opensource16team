@@ -1,11 +1,11 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="ko">
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>한끼줍쇼</title>
-    <!-- css 참조 -->
+    <!-- CSS 참조 -->
     <link rel="stylesheet" type="text/css" href="public/main.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -13,15 +13,15 @@
 
 <body>
     <%- include('nav.html') %>
-        <h1>Menu</h1>
-        <!-- 버튼으로 토글 -->
-        <!-- 가져온 데이터 나타내기 -->
-
+    <h1>Menu</h1>
+    <!-- 버튼으로 토글 -->
+    <!-- 가져온 데이터 나타내기 -->
+    <div class="table-responsive">
         <div class="container text-center">
             <div class="row">
                 <div class="col">
-                    <button id="toggleButton">후생관 학생식당</button>
-                    <ul>
+                    <button class="toggleButton" data-target="stu_res">후생관 학생식당</button>
+                    <ul class="stu_res">
                         <% stu_res.forEach(item=> { %>
                             <li class="menu_item">
                                 <p>
@@ -32,8 +32,8 @@
                     </ul>
                 </div>
                 <div class="col">
-                    <button id="toggleButton">후생관 교직원식당</button>
-                    <ul>
+                    <button class="toggleButton" data-target="prof_res">후생관 교직원식당</button>
+                    <ul class="prof_res">
                         <% prof_res.forEach(item=> { %>
                             <li class="menu_item">
                                 <p>
@@ -44,8 +44,8 @@
                     </ul>
                 </div>
                 <div class="col">
-                    <button id="toggleButton">HufsDorm 식당</button>
-                    <ul>
+                    <button class="toggleButton" data-target="hufs_res">HufsDorm 식당</button>
+                    <ul class="hufs_res">
                         <% hufs_res.forEach(item=> { %>
                             <li class="menu_item">
                                 <p>
@@ -57,35 +57,41 @@
                 </div>
             </div>
         </div>
+    </div>
 
-
-        <!-- 제이쿼리 참조 -->
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script>
-            // 버튼 토글
-            $(document).ready(function () {
-                $("#toggleButton").click(function () {
-                    $(".menu_item").each(function () {
-                        if ($(this).css("visibility") === "hidden") {
-                            $(this).css("visibility", "visible");
-                        } else {
-                            $(this).css("visibility", "hidden");
-                        }
-                    });
+    <!-- 제이쿼리 참조 -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // 버튼 토글
+        $(document).ready(function () {
+            $("#toggleButton").click(function () {
+                $(".menu_item").each(function () {
+                    if ($(this).css("visibility") === "hidden") {
+                        $(this).css("visibility", "visible");
+                    } else {
+                        $(this).css("visibility", "hidden");
+                    }
                 });
             });
-        </script>
+        });
+        /*
+        // 버튼 토글
+        $(document).ready(function () {
+            $(".toggleButton").click(function () {
+                var target = $(this).data("target");
+                $("." + target).toggle();
+            });
+        });
+        */
+    </script>
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-            crossorigin="anonymous"></script>
+    <!-- 부트스트랩 및 Popper.js 참조 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
 </body>
 
 </html>
-
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-    crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
-    integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
-    crossorigin="anonymous"></script>
