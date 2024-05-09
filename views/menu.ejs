@@ -2,7 +2,7 @@
 <html lang="ko">
 
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>한끼줍쇼</title>
     <!-- CSS 참조 -->
@@ -13,7 +13,7 @@
 
 <body>
     <%- include('nav.html') %>
-    <h1>메뉴</h1>
+    <h1>Menu</h1>
     <!-- 버튼으로 토글 -->
     <!-- 가져온 데이터 나타내기 -->
     <div class="table-responsive">
@@ -64,11 +64,25 @@
     <script>
         // 버튼 토글
         $(document).ready(function () {
+            $("#toggleButton").click(function () {
+                $(".menu_item").each(function () {
+                    if ($(this).css("visibility") === "hidden") {
+                        $(this).css("visibility", "visible");
+                    } else {
+                        $(this).css("visibility", "hidden");
+                    }
+                });
+            });
+        });
+        /*
+        // 버튼 토글
+        $(document).ready(function () {
             $(".toggleButton").click(function () {
                 var target = $(this).data("target");
                 $("." + target).toggle();
             });
         });
+        */
     </script>
 
     <!-- 부트스트랩 및 Popper.js 참조 -->
