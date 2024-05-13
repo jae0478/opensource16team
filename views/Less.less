@@ -1,0 +1,59 @@
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: linear-gradient(45deg, #49a09d, #5f2c82);
+  font-family: sans-serif;
+  font-weight: 100;
+  color: #fff; /* 텍스트 색상을 밝게 설정 */
+}
+
+.container {
+  position: relative; /* 절대 위치 대신 상대 위치로 변경 */
+  max-width: 100%; /* 컨테이너 최대 너비 설정 */
+}
+
+table {
+  width: 100%; /* 표 너비를 부모 컨테이너에 맞게 설정 */
+  border-collapse: collapse;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+th,
+td {
+  padding: 15px;
+  background-color: rgba(0, 0, 0, 0.4); /* 텍스트와 배경 대비를 높임 */
+  color: #fff;
+  border: 1px solid #fff; /* 셀 테두리 추가 */
+}
+
+th {
+  text-align: left;
+}
+
+thead th {
+  background-color: #55608f;
+}
+
+tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+tbody td {
+  position: relative;
+}
+
+tbody td:hover:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -9999px;
+  bottom: -9999px;
+  background-color: rgba(255, 255, 255, 0.2);
+  z-index: -1;
+}
