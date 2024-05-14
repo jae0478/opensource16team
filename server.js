@@ -23,6 +23,12 @@ const { ObjectId } = require('mongodb');
 // 자동화를 위해 cron을 쓰겠다
 const cron = require('node-cron');
 
+// 매일매일 메뉴를 이메일로 보내주기 위해 nodemailer 사용
+const nodemailer = require('nodemailer');
+
+// 구글api 이용
+const { google } = require('googleapis');
+
 // 환경 변수 사용을 위해
 require('dotenv').config();
 
@@ -185,6 +191,80 @@ app.get('/menu', async (req, res) => {
     today_hufs_res = hufs_res_result.hufs_res[dayOfWeek];
 
     res.render('menu.ejs', { "stu_res": today_stu_res, "prof_res": today_prof_res, "hufs_res": today_hufs_res });
+});
+
+// /subscribe로 post 요청 받으면
+app.post('/subscribe', (req, res) => {
+    db.collection('email_information').findOne({ email: req.body.email }, function (에러, 결과) {
+        if (에러) { res.send("에러입니다.") }
+        else if (결과) { res.send('이미 구독 중입니다 :)') }
+        else {
+            db.collection('email_information').insertOne({ email: req.body.email }, function (에러, 결과) {
+                console.log("이메일 저장 완료");
+                res.redirect('/');
+            })
+        }
+    });
+})
+
+// 매일 10am에 이메일로 메뉴 전송
+cron.schedule('0 10 * * *', async () => {
+    try {
+        // 오늘 요일에 따라 db에서 오늘의 메뉴를 가져옴
+        const today = new Date();
+        const dayOfWeek = today.getDay();
+
+        const stu_res_result = await db.collection('stu_res').findOne({ _id: 1 });
+        const prof_res_result = await db.collection('prof_res').findOne({ _id: 1 });
+        const hufs_res_result = await db.collection('hufs_res').findOne({ _id: 1 });
+
+        let today_stu_res = stu_res_result.stu_res[dayOfWeek];
+        let today_prof_res = prof_res_result.prof_res[dayOfWeek];
+        let today_hufs_res = hufs_res_result.hufs_res[dayOfWeek];
+
+        const message = "<오늘의 점심>\n\n후생관 학생 식당\n" + today_stu_res + "\n\n후생관 교직원 식당\n" + today_prof_res + "\n\n기숙사 식당\n" + today_hufs_res + "\n\n오늘도 맛있는 식사 하세요 :)";
+
+        // 모든 이메일 정보 가져오기
+        const subscribers = await db.collection('email_information').find({}).toArray();
+
+        // OAuth 2.0 클라이언트 생성
+        const oAuth2Client = new google.auth.OAuth2(process.env.GMAIL_OAUTH_CLIENT_ID, process.env.GMAIL_OAUTH_CLIENT_SECRET, process.env.GMAIL_OAUTH_REDIRECT_URI);
+        oAuth2Client.setCredentials({ refresh_token: process.env.GMAIL_OAUTH_REFRESH_TOKEN });
+
+        for (let subscriber of subscribers) {
+            // OAuth 2.0로 토큰 갱신
+            const accessToken = await oAuth2Client.getAccessToken();
+
+            // Send email logic
+            const transporter = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                    type: 'OAuth2',
+                    user: 'hufsmenu@gmail.com',
+                    clientId: process.env.GMAIL_OAUTH_CLIENT_ID,
+                    clientSecret: process.env.GMAIL_OAUTH_CLIENT_SECRET,
+                    refreshToken: process.env.GMAIL_OAUTH_REFRESH_TOKEN,
+                    accessToken: accessToken,
+                },
+            });
+
+            // Gmail 전송 옵션
+            const mailOptions = {
+                from: 'hufsmenu@gmail.com', // 발신자 이메일 주소
+                to: subscriber.email, // 입력된 이메일 주소
+                subject: '오늘의 학식 목록입니다 :)', // 이메일 제목
+                text: message // 이메일 내용
+            };
+
+            // 이메일 전송
+            const result = await transporter.sendMail(mailOptions);
+            console.log('Email sent:', result);
+        }
+    } catch (error) {
+        console.error('Error sending email: ', error);
+    }
+}, {
+    timezone: "Asia/Seoul" // 시간대 설정 (예: 서울 시간대)
 });
 
 // /login으로 들어오면 login.ejs 보내줌

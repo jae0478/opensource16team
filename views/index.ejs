@@ -5,16 +5,60 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>한끼줍쇼</title>
+    <!-- CSS 참조 -->
+    <link rel="stylesheet" type="text/css" href="public/main.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
 </head>
 
 <body>
     <%- include('nav.html') %>
 
+    <div class="container">
+        <h1>Email Input Form</h1>
+        <!-- 이메일 입력 폼 -->
+        <form action="/subscribe" method="POST">
+            <div class="mb-3">
+                <label for="email" class="form-label">Email:</label>
+                <!-- 이메일 입력 필드 -->
+                <input type="email" id="email" name="email" class="form-control" required>
+                <!-- 이메일 형식 검증 메시지 -->
+                <div class="invalid-feedback">올바른 이메일 형식이 아닙니다.</div>
+                <div class="subscribe_email" style="display: none;">이미 구독 중인 이메일입니다.</div>
+            </div>
+            <!-- 구독 버튼 -->
+            <button type="submit" class="btn btn-primary">구독하기</button>
+        </form>
+    </div>
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
+    <script>
+        // 이메일 형식 검증 스크립트
+        // HTML5의 기본 유효성 검사를 사용하지 않고 별도로 검사하고자 할 때 사용됩니다.
+        // 정규식을 사용하여 이메일 형식을 검증합니다.
+        const form = document.querySelector('form');
+        const emailInput = document.getElementById('email');
+
+        form.addEventListener('submit', function (event) {
+            if (!validateEmail(emailInput.value)) {
+                // 이메일 형식이 올바르지 않은 경우
+                emailInput.classList.add('is-invalid');
+                event.preventDefault(); // 폼 제출을 막습니다.
+            } else {
+                // 이메일 형식이 올바른 경우
+                emailInput.classList.remove('is-invalid');
+            }
+        });
+
+        // 이메일 유효성 검사 함수
+        function validateEmail(email) {
+            const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return regex.test(email);
+        }
+    </script>
 </body>
 
 </html>
