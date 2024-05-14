@@ -1,3 +1,24 @@
-.font_size_small {
-    font-size: 8px;
+body {
+    font-family: var(--font-rubik), sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--font-arimo), sans-serif;
+}
+/* 이메일 입력 필드에 추가되는 빨간색 테두리와 에러 메시지 스타일 */
+.is-invalid {
+    border-color: #dc3545;
+}
+
+.invalid-feedback {
+    display: block;
+    width: 100%;
+    margin-top: .25rem;
+    font-size: .875em;
+    color: #dc3545;
 }
