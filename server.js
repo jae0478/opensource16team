@@ -29,6 +29,22 @@ const nodemailer = require('nodemailer');
 // 구글api 이용
 const { google } = require('googleapis');
 
+// 회원인증 기능을 위한 라이브러리
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const session = require('express-session');
+// app.use(미들웨어), 미들웨어 : 요청-응답 중간에 실행되는 코드
+app.use(session({secret : '비밀코드', resave : true, saveUninitialized: false}));
+app.use(passport.initialize());
+app.use(passport.session());
+
+// 비밀번호 암호화
+const bcrypt = require('bcrypt');
+
+// 오류 메시지 띄우기 위한 라이브러리
+const flash = require('express-flash');
+app.use(flash());
+
 // 환경 변수 사용을 위해
 require('dotenv').config();
 
@@ -267,11 +283,129 @@ cron.schedule('0 10 * * *', async () => {
     timezone: "Asia/Seoul" // 시간대 설정 (예: 서울 시간대)
 });
 
-// /login으로 들어오면 login.ejs 보내줌
-app.get('/login', function (요청, 응답) {
-    응답.render('login.ejs');
-})
 // /register로 들어오면 register.ejs 보내줌
 app.get('/register', function (요청, 응답) {
     응답.render('register.ejs');
 })
+// register로 post 요청 받았을 때
+app.post('/register', function (요청, 응답) {
+    db.collection('login').findOne({ id: 요청.body.id }, function (에러, 결과) {
+        if (에러) { 응답.send('에러입니다') }
+        else if (결과) {
+            응답.send('이미 존재하는 아이디입니다.');
+        }
+        else if (!/^[A-Za-z0-9]+$/.test(요청.body.id)) {
+            응답.send('아이디는 영어와 숫자만 입력할 수 있습니다.');
+        }
+        else if (!/^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[\W_]).{8,}$/.test(요청.body.pw)) {
+            응답.send('비밀번호는 8자리 이상이며 영어와 숫자, 특수기호를 모두 포함해야 합니다.');
+        }
+        else {
+            // 비번 암호화해서 저장
+            db.collection('login').insertOne({ id: 요청.body.id, pw: bcrypt.hashSync(요청.body.pw, 10) }, function (에러, 결과) {
+                console.log('저장완료');
+                응답.redirect('/');
+            });
+        }
+    });
+});
+
+// /login으로 들어오면 login.ejs 보내줌
+app.get('/login', function (요청, 응답) {
+    응답.render('login.ejs');
+})
+
+// login으로 post 요청 받았을 때
+app.post('/login', passport.authenticate('local', { // 미들웨어 씀
+    failureRedirect: '/fail',
+    failureFlash: true
+}), function (요청, 응답) {
+    응답.redirect('/');
+});
+
+// fail로 get 요청 받았을 때
+app.get('/fail', function (요청, 응답) {
+    // passport가 추가한 flash 메시지를 가져옴
+    const flashMessage = 요청.flash('error')[0]; // 첫 번째 에러 메시지만 가져옴
+    응답.render('login.ejs', { message: flashMessage });
+});
+
+// logout으로 get 요청 받았을 때
+app.get('/logout', function (요청, 응답) {
+    요청.logout(function (에러) {
+        if (에러) {
+            return 에러.status(500).send('Error occurred during logout');
+        }
+        응답.redirect('/');
+    });
+});
+
+// mypage로 get 요청 받았을 때
+app.get('/mypage', 로그인했니, function (요청, 응답) {   // 미들웨어 씀
+    console.log(요청.user);
+    응답.render('mypage.ejs', { 사용자: 요청.user });
+});
+
+
+// 로그인했는지 확인하는 함수
+function 로그인했니(요청, 응답, next) {
+    if (요청.user) {
+        next();
+    } else {
+        // 응답.send('로그인안하셨는데요?');
+        응답.redirect('/login');
+    }
+}
+
+// 아이디 비번 인증하는 코드
+passport.use(new LocalStrategy({
+    usernameField: 'id',    // form name : id
+    passwordField: 'pw',    // form name : pw
+    session: true,  // 로그인 후 세션을 저장할 것인지
+    passReqToCallback: false,   // 아이디, 비번 말고 다른 정보검사가 필요한지
+}, function (입력한아이디, 입력한비번, done) {
+    if (!/^[A-Za-z0-9]+$/.test(입력한아이디)) {
+        return done(null, false, {message: '아이디는 영어와 숫자만 입력할 수 있습니다.'});
+    }
+    else if (!/^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[\W_]).{8,}$/.test(입력한비번)) {
+        return done(null, false, {message: '비밀번호는 8자리 이상이며 영어와 숫자, 특수기호를 모두 포함해야 합니다.'});
+    }
+    else {
+        db.collection('login').findOne({ id: 입력한아이디 }, function (에러, 결과) {
+            if (에러) return done(에러);
+    
+            if (!결과) return done(null, false, { message: '존재하지 않는 아이디입니다.' });
+            
+            // 입력한비번의 암호화한 값과 DB에 저장되어 있는 pw 비교
+            if (bcrypt.compareSync(입력한비번, 결과.pw)) {
+                return done(null, 결과);
+            } else {
+                return done(null, false, { message: '비밀번호가 틀렸습니다.' });
+            }
+        })
+    }
+}));
+
+// 세션을 저장시키는 코드 (로그인 성공시 발동)
+passport.serializeUser(function (user, done) {
+    done(null, user.id);    // 세션 데이터를 만들고 세션의 id 정보를 쿠키로 보냄
+});
+// 이 세션 데이터를 가진 사람을 DB에서 찾아주세요 (마이페이지 접속시 발동)
+passport.deserializeUser(function (아이디, done) {
+    db.collection('login').findOne({ id: 아이디 }, function (에러, 결과) {
+        done(null, 결과);
+    });
+});
+
+// student로 get 요청 받았을 때
+app.get('/student', function (요청, 응답) {
+    응답.render('student.ejs');
+});
+// professor로 get 요청 받았을 때
+app.get('/professor', function (요청, 응답) {
+    응답.render('professor.ejs');
+});
+// hufsdorm으로 get 요청 받았을 때
+app.get('/hufsdorm', function (요청, 응답) {
+    응답.render('hufsdorm.ejs');
+});
