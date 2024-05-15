@@ -209,6 +209,10 @@ app.get('/menu', async (req, res) => {
     res.render('menu.ejs', { "stu_res": today_stu_res, "prof_res": today_prof_res, "hufs_res": today_hufs_res });
 });
 
+app.get('/subscribe', (요청, 응답) => {
+    응답.render('mail.ejs');
+})
+
 // /subscribe로 post 요청 받으면
 app.post('/subscribe', (req, res) => {
     db.collection('email_information').findOne({ email: req.body.email }, function (에러, 결과) {
@@ -395,17 +399,4 @@ passport.deserializeUser(function (아이디, done) {
     db.collection('login').findOne({ id: 아이디 }, function (에러, 결과) {
         done(null, 결과);
     });
-});
-
-// student로 get 요청 받았을 때
-app.get('/student', function (요청, 응답) {
-    응답.render('student.ejs');
-});
-// professor로 get 요청 받았을 때
-app.get('/professor', function (요청, 응답) {
-    응답.render('professor.ejs');
-});
-// hufsdorm으로 get 요청 받았을 때
-app.get('/hufsdorm', function (요청, 응답) {
-    응답.render('hufsdorm.ejs');
 });

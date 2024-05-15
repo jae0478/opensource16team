@@ -9,69 +9,203 @@
     <link rel="stylesheet" type="text/css" href="public/main.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+
+    <!-- tailwindcss 참조 -->
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body>
-    <%- include('nav.html') %>
-
-    <div class="container">
-        <h1>Email Input Form</h1>
-        <!-- 이메일 입력 폼 -->
-        <form action="/subscribe" method="POST">
-            <div class="mb-3">
-                <label for="email" class="form-label">Email:</label>
-                <!-- 이메일 입력 필드 -->
-                <input type="email" id="email" name="email" class="form-control" required>
-                <!-- 이메일 형식 검증 메시지 -->
-                <div class="invalid-feedback">올바른 이메일 형식이 아닙니다.</div>
-                <div class="subscribe_email" style="display: none;">이미 구독 중인 이메일입니다.</div>
-            </div>
-            <!-- 구독 버튼 -->
-            <button type="submit" class="btn btn-primary">구독하기</button>
-        </form>
+    <div class="flex flex-col min-h-[100dvh]">
+        <header class="px-4 lg:px-6 h-14 flex items-center bg-[#4B5563] text-white">
+            <a class="flex items-center justify-center" href="/">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="h-6 w-6 text-white">
+                    <path d="m8 3 4 8 5-5 5 15H2L8 3z"></path>
+                </svg>
+                <span class="sr-only">한끼줍쇼</span>
+            </a>
+            <nav class="ml-auto flex gap-4 sm:gap-6">
+                <a class="text-sm font-medium hover:underline underline-offset-4 hover:text-gray-200" href="/menu">
+                    학식 메뉴
+                </a>
+                <a class="text-sm font-medium hover:underline underline-offset-4 hover:text-gray-200" href="/login">
+                    로그인
+                </a>
+                <a class="text-sm font-medium hover:underline underline-offset-4 hover:text-gray-200" href="/logout">
+                    로그아웃
+                </a>
+                <a class="text-sm font-medium hover:underline underline-offset-4 hover:text-gray-200" href="register">
+                    회원가입
+                </a>
+                <a class="text-sm font-medium hover:underline underline-offset-4 hover:text-gray-200" href="mypage">
+                    마이페이지
+                </a>
+            </nav>
+        </header>
+        <main class="flex-1">
+            <section
+                class="w-full py-12 md:py-24 lg:py-32 xl:py-48 bg-gradient-to-b from-[#4B5563] to-[#374151] text-white">
+                <div class="container px-4 md:px-6">
+                    <div class="flex flex-col items-center space-y-4 text-center">
+                        <div class="space-y-2">
+                            <h1
+                                class="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none text-white">
+                                한끼줍쇼
+                            </h1>
+                            <p class="mx-auto max-w-[700px] text-gray-200 md:text-xl">
+                                학교 근처 식당의 남은 음식을 저렴하게 구매할 수 있는 플랫폼입니다.
+                            </p>
+                        </div>
+                        <div class="space-x-4">
+                            <a class="inline-flex h-10 items-center justify-center rounded-md bg-white px-6 py-2 text-sm font-medium text-[#4B5563] shadow transition-colors hover:bg-gray-200 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#374151] disabled:pointer-events-none disabled:opacity-50"
+                                href="/subscribe">
+                                구독하기
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="w-full py-12 md:py-24 lg:py-32 bg-gray-100 dark:bg-gray-800">
+                <div class="container px-4 md:px-6">
+                    <div class="grid items-center gap-6 lg:grid-cols-[1fr_500px] lg:gap-12 xl:grid-cols-[1fr_550px]">
+                        <img alt="학식 메뉴"
+                            class="mx-auto aspect-video overflow-hidden rounded-xl object-cover object-center sm:w-full lg:order-last"
+                            height="310" src="/placeholder.svg" width="550" />
+                        <div class="flex flex-col justify-center space-y-4">
+                            <div class="space-y-2">
+                                <div
+                                    class="inline-block rounded-lg bg-gray-200 px-3 py-1 text-sm dark:bg-gray-700 text-gray-700 dark:text-gray-300">
+                                    학식 메뉴
+                                </div>
+                                <h2
+                                    class="text-3xl font-bold tracking-tighter sm:text-5xl text-gray-900 dark:text-gray-100">
+                                    오늘의 학식 메뉴
+                                </h2>
+                                <p
+                                    class="max-w-[600px] text-gray-600 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
+                                    학교 근처 식당에서 제공하는 오늘의 학식 메뉴를 확인하고 저렴하게 구매하세요.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="w-full py-12 md:py-24 lg:py-32 bg-gray-100 dark:bg-gray-800">
+                <div class="container px-4 md:px-6">
+                    <div class="grid items-center gap-6 lg:grid-cols-[500px_1fr] lg:gap-12 xl:grid-cols-[550px_1fr]">
+                        <img alt="이용 방법"
+                            class="mx-auto aspect-video overflow-hidden rounded-xl object-cover object-center sm:w-full"
+                            height="310" src="/placeholder.svg" width="550" />
+                        <div class="flex flex-col justify-center space-y-4">
+                            <div class="space-y-2">
+                                <div
+                                    class="inline-block rounded-lg bg-gray-200 px-3 py-1 text-sm dark:bg-gray-700 text-gray-700 dark:text-gray-300">
+                                    이용 방법
+                                </div>
+                                <h2
+                                    class="text-3xl font-bold tracking-tighter sm:text-5xl text-gray-900 dark:text-gray-100">
+                                    한끼줍쇼 이용하는 방법
+                                </h2>
+                                <p
+                                    class="max-w-[600px] text-gray-600 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
+                                    한끼줍쇼 앱을 다운로드하고 학교 근처 식당의 남은 음식을 저렴하게 구매하세요.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="w-full py-12 md:py-24 lg:py-32 bg-gray-100 dark:bg-gray-800">
+                <div class="container px-4 md:px-6">
+                    <div class="grid items-center gap-6 lg:grid-cols-[1fr_500px] lg:gap-12 xl:grid-cols-[1fr_550px]">
+                        <img alt="소개"
+                            class="mx-auto aspect-video overflow-hidden rounded-xl object-cover object-center sm:w-full lg:order-last"
+                            height="310" src="/placeholder.svg" width="550" />
+                        <div class="flex flex-col justify-center space-y-4">
+                            <div class="space-y-2">
+                                <div
+                                    class="inline-block rounded-lg bg-gray-200 px-3 py-1 text-sm dark:bg-gray-700 text-gray-700 dark:text-gray-300">
+                                    소개
+                                </div>
+                                <h2
+                                    class="text-3xl font-bold tracking-tighter sm:text-5xl text-gray-900 dark:text-gray-100">
+                                    한끼줍쇼 소개
+                                </h2>
+                                <p
+                                    class="max-w-[600px] text-gray-600 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
+                                    한끼줍쇼는 학교 근처 식당의 남은 음식을 저렴하게 구매할 수 있는 플랫폼입니다. 음식 낭비를 줄이고
+                                    학생들의 식비를 절감할 수 있습니다.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-r from-[#4B5563] to-[#374151] text-white">
+                <div class="container grid items-center justify-center gap-4 px-4 text-center md:px-6 lg:gap-10">
+                    <div class="space-y-3">
+                        <h2 class="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-white">사용자 후기</h2>
+                        <p
+                            class="mx-auto max-w-[700px] text-gray-200 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                            한끼줍쇼를 이용한 사용자들의 후기를 확인해보세요.
+                        </p>
+                    </div>
+                    <div class="grid w-full grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+                        <div class="rounded-lg border shadow-sm bg-gray-800 text-white" data-v0-t="card">
+                            <div class="p-6 space-y-4">
+                                <blockquote class="text-lg font-semibold leading-snug">
+                                    "한끼줍쇼 덕분에 학식 비용을 많이 절감할 수 있었어요. 음식 낭비도 줄이고 저렴하게 먹을 수 있어
+                                    좋습니다."
+                                </blockquote>
+                                <div>
+                                    <div class="font-semibold">김철수</div>
+                                    <div class="text-sm text-gray-400">대학생</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="rounded-lg border shadow-sm bg-gray-800 text-white" data-v0-t="card">
+                            <div class="p-6 space-y-4">
+                                <blockquote class="text-lg font-semibold leading-snug">
+                                    "한끼줍쇼 덕분에 학교 근처 맛집을 저렴하게 즐길 수 있어요. 음식도 신선하고 맛있어요."
+                                </blockquote>
+                                <div>
+                                    <div class="font-semibold">박영희</div>
+                                    <div class="text-sm text-gray-400">대학생</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="rounded-lg border shadow-sm bg-gray-800 text-white" data-v0-t="card">
+                            <div class="p-6 space-y-4">
+                                <blockquote class="text-lg font-semibold leading-snug">
+                                    "한끼줍쇼 덕분에 학식 비용을 많이 절감할 수 있었어요. 음식 낭비도 줄이고 저렴하게 먹을 수 있어
+                                    좋습니다."
+                                </blockquote>
+                                <div>
+                                    <div class="font-semibold">이민수</div>
+                                    <div class="text-sm text-gray-400">대학생</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <footer
+            class="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t border-gray-200 dark:border-gray-700">
+            <p class="text-xs text-gray-500 dark:text-gray-400">© 2024 한끼줍쇼. All rights reserved.</p>
+            <nav class="sm:ml-auto flex gap-4 sm:gap-6">
+            </nav>
+        </footer>
     </div>
-    
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
-    <script>
-        // 이메일 형식 검증 스크립트
-        // HTML5의 기본 유효성 검사를 사용하지 않고 별도로 검사하고자 할 때 사용됩니다.
-        // 정규식을 사용하여 이메일 형식을 검증합니다.
-        const form = document.querySelector('form');
-        const emailInput = document.getElementById('email');
-
-        form.addEventListener('submit', function (event) {
-            if (!validateEmail(emailInput.value)) {
-                // 이메일 형식이 올바르지 않은 경우
-                emailInput.classList.add('is-invalid');
-                event.preventDefault(); // 폼 제출을 막습니다.
-            } else {
-                // 이메일 형식이 올바른 경우
-                emailInput.classList.remove('is-invalid');
-            }
-        });
-
-        // 이메일 유효성 검사 함수
-        function validateEmail(email) {
-            const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return regex.test(email);
-        }
-    </script>
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"></script>
 </body>
 
 </html>
-<div id="disqus_thread"></div>
-<script>
-    (function() { 
-    var d = document, s = d.createElement('script');
-    s.src = 'https://onemealhufshow.disqus.com/embed.js';
-    s.setAttribute('data-timestamp', +new Date());
-    (d.head || d.body).appendChild(s);
-    })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
     integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
     crossorigin="anonymous"></script>
