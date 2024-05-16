@@ -400,3 +400,13 @@ passport.deserializeUser(function (아이디, done) {
         done(null, 결과);
     });
 });
+
+// POST 요청을 처리하는 핸들러
+/*app.post('/increment', (req, res) => {
+    const restaurant = req.body.restaurant; // 클라이언트에서 전송한 레스토랑 이름
+
+    // 여기에서 데이터베이스에 해당 레스토랑의 클릭 수를 증가시키는 코드를 추가해야 합니다.
+
+    // 클라이언트에 응답을 보냅니다.
+    res.send('Incremented successfully');
+});*/
