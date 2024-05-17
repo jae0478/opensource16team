@@ -33,9 +33,6 @@
                         </ul>
                     </div>
                 </div>
-                <div class="position-relative" style="max-width: 20rem; text-decoration: none;">
-                    <button id="button-student" class="position-absolute rounded-pill btn btn-primary end-0">👍0</button>
-                </div>
             </div>
             <div class="col">
                 <div class="card border-danger" style="max-width: 20rem; text-decoration: none;">
@@ -49,9 +46,6 @@
                         </ul>
                     </div>
                 </div>
-                <div class="position-relative" style="max-width: 20rem; text-decoration: none;">
-                    <button id="button-professor" class="position-absolute rounded-pill btn btn-primary end-0">👍0</button>
-                </div>
             </div>
             <div class="col">
                 <div class="card border-danger" style="max-width: 20rem; text-decoration: none;">
@@ -64,9 +58,6 @@
                             <% }) %>
                         </ul>
                     </div>
-                </div>
-                <div class="position-relative" style="max-width: 20rem; text-decoration: none;">
-                    <button id="button-hufsdorm" class="position-absolute rounded-pill btn btn-primary end-0">👍0</button>
                 </div>
             </div>
         </div>
@@ -82,41 +73,6 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
         integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
         crossorigin="anonymous"></script>
-
-
-    <script>
-        $(document).ready(function(){
-            $("#button-student").click(function(){
-                $.post("/increment", { restaurant: "student" }, function(data, status){
-                    console.log(data);
-                });
-                // 클릭된 버튼만 활성화하고 나머지는 비활성화
-                $("#button-student").prop("disabled", true);
-                $("#button-professor").prop("disabled", true);
-                $("#button-hufsdorm").prop("disabled", true);
-            });
-
-            $("#button-professor").click(function(){
-                $.post("/increment", { restaurant: "professor" }, function(data, status){
-                    console.log(data);
-                });
-                // 클릭된 버튼만 활성화하고 나머지는 비활성화
-                $("#button-student").prop("disabled", true);
-                $("#button-professor").prop("disabled", true);
-                $("#button-hufsdorm").prop("disabled", true);
-            });
-
-            $("#button-hufsdorm").click(function(){
-                $.post("/increment", { restaurant: "hufsdorm" }, function(data, status){
-                    console.log(data);
-                });
-                // 클릭된 버튼만 활성화하고 나머지는 비활성화
-                $("#button-student").prop("disabled", true);
-                $("#button-professor").prop("disabled", true);
-                $("#button-hufsdorm").prop("disabled", true);
-            });
-        });
-    </script>
 
 </body>
 

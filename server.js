@@ -45,6 +45,10 @@ const bcrypt = require('bcrypt');
 const flash = require('express-flash');
 app.use(flash());
 
+// 메소드 오버라이드 (put, delete 요청 가능하게 함)
+const methodOverride = require('method-override');
+app.use(methodOverride('_method'));
+
 // 환경 변수 사용을 위해
 require('dotenv').config();
 
@@ -401,12 +405,100 @@ passport.deserializeUser(function (아이디, done) {
     });
 });
 
-// POST 요청을 처리하는 핸들러
-/*app.post('/increment', (req, res) => {
-    const restaurant = req.body.restaurant; // 클라이언트에서 전송한 레스토랑 이름
+// /write로 들어오면 write.ejs 보내라
+app.get('/write', 로그인했니, function (요청, 응답) {
+    응답.render('write.ejs');
+});
+// /edit으로 접속하면 edit.ejs 보여줌
+app.get('/edit/:id', function (요청, 응답) {
+    db.collection('post').findOne({ _id: parseInt(요청.params.id) }, function (에러, 결과) {
+        console.log(결과);
+        응답.render('edit.ejs', { post: 결과 });
+    });
+});
+// edit으로 put 요청 받았을 때
+app.put('/edit', function (요청, 응답) {
+    // DB에 저장된 값 수정
+    db.collection('post').updateOne({ _id: parseInt(요청.body.id) }, { $set: { 제목: 요청.body.title, 본문: 요청.body.content } }, function (에러, 결과) {
+        console.log('수정완료');
+        응답.redirect('/list'); // 응답은 필수
+    });
+});
+// /add 경로로 POST 요청 시
+app.post('/add', function (요청, 응답) {
+    console.log(요청.body.title);
+    console.log(요청.body.content);
+    console.log(요청.user);
+    // DB에 저장
+    db.collection('counter').findOne({ name: '게시물갯수' }, function (에러, 결과) {
+        console.log(결과.totalPost);
+        var 총게시물갯수 = 결과.totalPost;
+        var 저장할거 = { _id: 총게시물갯수 + 1, 작성자 : 요청.user._id, 제목: 요청.body.title, 본문: 요청.body.content }
+        db.collection('post').insertOne(저장할거, function (에러, 결과) {
+            console.log('저장완료');
+            // 응답.send('전송완료');
+            응답.redirect('/list'); // add하면 list로 redirect
 
-    // 여기에서 데이터베이스에 해당 레스토랑의 클릭 수를 증가시키는 코드를 추가해야 합니다.
+            // counter라는 콜렉션에 있는 totalPost라는 항목도 1 증가시켜야함
+            db.collection('counter').updateOne({ name: '게시물갯수' }, { $inc: { totalPost: 1 } }, function (에러, 결과) {
+                if (에러) { return console.log(에러) }
+            });
+        });
+    });
+});
+// /delete 경로로 delete 요청을 받았을 때
+app.delete('/delete', function (요청, 응답) {
+    console.log(요청.body);
+    요청.body._id = parseInt(요청.body._id);    // 데이터 주고 받을 때는 문자로 바뀌니 이걸 다시 숫자로 바꿔줌
 
-    // 클라이언트에 응답을 보냅니다.
-    res.send('Incremented successfully');
-});*/
+    var 삭제할데이터 = {_id : 요청.body._id, 작성자 : 요청.user._id}
+
+    // 요청.body에 담겨온 게시물번호를 가진 글을 DB에서 찾아서 삭제
+    db.collection('post').deleteOne(삭제할데이터, function (에러, 결과) {
+        console.log('삭제완료');
+        if (결과) {console.log(결과)}
+        응답.status(200).send({ message: '성공했습니다' });
+    });
+});
+// /list로 get 요청 시
+app.get('/list', 로그인했니, function (요청, 응답) {
+    // DB에 저장된 post라는 collection안의 모든 데이터를 list.ejs로 보내고 띄워라
+    db.collection('post').find().toArray(function (에러, 결과) {
+        응답.render('list.ejs', { posts: 결과, user: 요청.user });
+    });
+});
+
+// search로 get 요청 받았을 때
+// binary search - search index 활용
+app.get('/search', (요청, 응답) => {
+    console.log(요청.query);    // query string, query parameter
+    
+    var 검색조건 = [
+        {
+          $search: {
+            index: 'default',
+            text: {
+              query: 요청.query.value,
+              path: '제목'  // 제목본문 둘다 찾고 싶으면 ['제목', '본문']
+            }
+        }
+        },
+    ]
+    // 검색조건에 맞는 것들을 모두 가져와 search.ejs로 전달
+    db.collection('post').aggregate(검색조건).toArray((에러, 결과) => {
+        console.log(결과);
+        응답.render('search.ejs', { posts : 결과, user: 요청.user});
+    });
+});
+// /detail로 접속하면 detail.ejs 보여줌
+app.get('/detail/:id', function (요청, 응답) {
+    db.collection('post').findOne({ _id: parseInt(요청.params.id) }, function (에러, 결과) {
+        if (에러 || !결과) {
+            응답.status(404).send('<h1>요청한 페이지는 없습니다.</h1>');
+        }
+        else {
+            console.log(결과);
+            응답.render('detail.ejs', { data: 결과, user : 요청.user });
+        }
+    });
+});
