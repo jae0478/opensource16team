@@ -43,6 +43,8 @@
                     </a>
                     <p>본문 : <%= posts[i].본문 %>
                     </p>
+                    <p>작성시간 : <%= posts[i].작성시간 %>
+                    </p>
                     <!-- 내 글만 삭제 가능하게 -->
                     <% if (JSON.stringify(user._id) == JSON.stringify(posts[i].작성자)) { %>
                         <button class="btn btn-danger delete" data-id="<%= posts[i]._id %>">삭제</button>

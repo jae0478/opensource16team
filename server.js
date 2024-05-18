@@ -210,7 +210,7 @@ app.get('/menu', async (req, res) => {
     today_prof_res = prof_res_result.prof_res[dayOfWeek];
     today_hufs_res = hufs_res_result.hufs_res[dayOfWeek];
 
-    res.render('menu.ejs', { "stu_res": today_stu_res, "prof_res": today_prof_res, "hufs_res": today_hufs_res });
+    res.render('menu.ejs', { "stu_res": today_stu_res, "prof_res": today_prof_res, "hufs_res": today_hufs_res, "GoogleMapApiKey": process.env.GOOGLE_MAP_API_KEY});
 });
 
 app.get('/subscribe', (요청, 응답) => {
@@ -351,7 +351,11 @@ app.get('/logout', function (요청, 응답) {
 // mypage로 get 요청 받았을 때
 app.get('/mypage', 로그인했니, function (요청, 응답) {   // 미들웨어 씀
     console.log(요청.user);
-    응답.render('mypage.ejs', { 사용자: 요청.user });
+
+    db.collection('post').find({작성자: 요청.user._id}).toArray(function (에러, 결과) {
+        console.log(결과);
+        응답.render('mypage.ejs', { 사용자: 요청.user, posts: 결과 });
+    });
 });
 
 
@@ -431,9 +435,18 @@ app.post('/add', function (요청, 응답) {
     console.log(요청.user);
     // DB에 저장
     db.collection('counter').findOne({ name: '게시물갯수' }, function (에러, 결과) {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = now.getMonth() + 1; // 월은 0부터 시작하므로 +1 해줍니다.
+        const day = now.getDate();
+        const hours = now.getHours();
+        const minutes = now.getMinutes();
+
+        console.log(year + "년 " + month + "월 " + day + "일 " + hours + ":" + minutes + "분")
+        
         console.log(결과.totalPost);
         var 총게시물갯수 = 결과.totalPost;
-        var 저장할거 = { _id: 총게시물갯수 + 1, 작성자 : 요청.user._id, 제목: 요청.body.title, 본문: 요청.body.content }
+        var 저장할거 = { _id: 총게시물갯수 + 1, 작성자 : 요청.user._id, 제목: 요청.body.title, 본문: 요청.body.content, 작성시간: year + "년 " + month + "월 " + day + "일 " + hours + ":" + minutes + "분" }
         db.collection('post').insertOne(저장할거, function (에러, 결과) {
             console.log('저장완료');
             // 응답.send('전송완료');
