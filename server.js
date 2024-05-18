@@ -210,7 +210,7 @@ app.get('/menu', async (req, res) => {
     today_prof_res = prof_res_result.prof_res[dayOfWeek];
     today_hufs_res = hufs_res_result.hufs_res[dayOfWeek];
 
-    res.render('menu.ejs', { "stu_res": today_stu_res, "prof_res": today_prof_res, "hufs_res": today_hufs_res });
+    res.render('menu.ejs', { "stu_res": today_stu_res, "prof_res": today_prof_res, "hufs_res": today_hufs_res, "GoogleMapApiKey": process.env.GOOGLE_MAP_API_KEY});
 });
 
 app.get('/subscribe', (요청, 응답) => {
