@@ -65,3 +65,11 @@ h6 {
 .hide {
     display: none;
 }
+
+.no-underline {
+    text-decoration: none;
+}
+
+.no-underline:hover {
+    text-decoration: none; /* 호버 시에도 밑줄이 안 생기게 */
+}
