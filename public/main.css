@@ -73,3 +73,46 @@ h6 {
 .no-underline:hover {
     text-decoration: none; /* 호버 시에도 밑줄이 안 생기게 */
 }
+
+.wrapper {
+    width: 600px;
+    margin: 20px auto;
+}
+
+.container {
+    padding-top: 1em;
+    margin-top: 1em;
+    border-top: 
+      solid
+      1px
+      #CCC;
+}
+
+a:visited {
+    text-decoration: none;
+    color: #00AE68;
+}
+
+a.button {
+    display: block;
+    position: relative;
+    float: right;
+    width: 120px;
+    padding: 0;
+    margin: 10px 20px 10px 0;
+    font-weight: 600;
+    text-align: center;
+    line-height: 50px;
+    color: #FFF;
+    border-radius: 5px;
+    transition: all 0.2s ;
+}
+
+.btnPurple {
+    background: #A74982;
+}
+
+.btnFade.btnPurple:hover {
+    background: #6D184B;
+}
+
