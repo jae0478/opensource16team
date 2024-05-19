@@ -73,11 +73,17 @@ async function student_restaurant() {
 
     const menu_list = parseMenuContent(content);
 
+    const menu_list_dinner = parseMenuContent_stu_dinner(content);
+
     await browser.close();
     // db 업데이트
     db.collection('stu_res').updateOne({ _id: 1 }, { $set: { stu_res: menu_list, _id: 1 } }, function (에러, 결과) {
         console.log("업데이트 완료");
     })
+    db.collection('stu_res_dinner').updateOne({_id: 1}, {$set: {stu_res_dinner: menu_list_dinner, _id:1}}, function(에러, 결과) {
+        console.log("학생저녁업데이트완료");
+    })
+
 }
 
 // 후생관 교직원식당
@@ -113,11 +119,21 @@ async function HufsDorm_restaurant() {
     ])
     const content = await page.content();
     const menu_list = parseMenuContentForHufsDorm(content);
+
+    const menu_list_breakfast = parseMenuContentForHufsDorm_breakfast(content);
+    const menu_list_dinner = parseMenuContentForHufsDorm_dinner(content);
+
     await browser.close();
 
     // db 업데이트
     db.collection('hufs_res').updateOne({ _id: 1 }, { $set: { hufs_res: menu_list, _id: 1 } }, function (에러, 결과) {
         console.log("업데이트 완료");
+    })
+    db.collection('hufs_res_breakfast').updateOne({_id: 1}, {$set: {hufs_res_breakfast: menu_list_breakfast, _id:1}}, function(에러, 결과) {
+        console.log("기숙아침업데이트완료");
+    })
+    db.collection('hufs_res_dinner').updateOne({_id: 1}, {$set: {hufs_res_dinner: menu_list_dinner, _id : 1}}, function(에러, 결과) {
+        console.log("기숙저녁업데이트완료");
     })
 }
 
@@ -176,6 +192,91 @@ function parseMenuContentForHufsDorm(content) {
     return menu_list;
 }
 
+// 학생식당 저녁 데이터 추출
+function parseMenuContent_stu_dinner(content) {
+    const cheerio = require('cheerio');
+    const $ = cheerio.load(content);
+
+    const menu_path = '#menuTableDiv > table > tbody > tr > td';
+    const menu_data = $(menu_path);
+
+    const menu_list = [];
+    for (var i = 14; i < 21; i++) {
+        const sub_menu_list = [];
+        // td의 내용이 메뉴없음이면 그 텍스트 출력
+        if ($(menu_data[i]).text() === "등록된 메뉴가없습니다.") {
+            sub_menu_list.push($(menu_data[i]).text());
+            // td에 바로 내용이 있는게 아니면
+        } else {
+            // li텍스트만
+            $(menu_data[i]).find('li').each(function () {
+                const text = $(this).text().trim();
+                if (text !== "")
+                    sub_menu_list.push(text);
+            });
+        }
+        menu_list.push(sub_menu_list);
+    }
+    return menu_list;
+}
+
+// 기숙사식당 아침 데이터 추출
+function parseMenuContentForHufsDorm_breakfast(content) {
+    const cheerio = require('cheerio');
+    const $ = cheerio.load(content);
+
+    const menu_path = '#menuTableDiv > table > tbody > tr > td';
+    const menu_data = $(menu_path);
+
+    const menu_list = [];
+    for (var i = 0; i < 7; i++) {
+        const sub_menu_list = [];
+        // td의 내용이 메뉴없음이면 그 텍스트 출력
+        if ($(menu_data[i]).text() === "등록된 메뉴가없습니다.") {
+            sub_menu_list.push($(menu_data[i]).text());
+            // td에 바로 내용이 있는게 아니면
+        } else {
+            // li텍스트만
+            $(menu_data[i]).find('li').each(function () {
+                const text = $(this).text().trim();
+                if (text !== "")
+                    sub_menu_list.push(text);
+            });
+        }
+        menu_list.push(sub_menu_list);
+    }
+    return menu_list;
+}
+// 기숙사식당 저녁 데이터 추출
+function parseMenuContentForHufsDorm_dinner(content) {
+    const cheerio = require('cheerio');
+    const $ = cheerio.load(content);
+
+    const menu_path = '#menuTableDiv > table > tbody > tr > td';
+    const menu_data = $(menu_path);
+
+    const menu_list = [];
+    for (var i = 21; i < 28; i++) {
+        const sub_menu_list = [];
+        // td의 내용이 메뉴없음이면 그 텍스트 출력
+        if ($(menu_data[i]).text() === "등록된 메뉴가없습니다.") {
+            sub_menu_list.push($(menu_data[i]).text());
+            // td에 바로 내용이 있는게 아니면
+        } else {
+            // li텍스트만
+            $(menu_data[i]).find('li').each(function () {
+                const text = $(this).text().trim();
+                if (text !== "")
+                    sub_menu_list.push(text);
+            });
+        }
+        menu_list.push(sub_menu_list);
+    }
+    return menu_list;
+}
+
+
+
 // 매주 일요일 01시에 db(메뉴) 업데이트
 cron.schedule('0 1 * * 0', async () => {
     // 여기에 실행하려는 코드를 넣으세요
@@ -201,16 +302,28 @@ app.get('/menu', async (req, res) => {
     let today_stu_res;
     let today_prof_res;
     let today_hufs_res;
+    let today_stu_res_dinner;
+    let today_hufs_res_breakfast;
+    let today_hufs_res_dinner;
 
     const stu_res_result = await db.collection('stu_res').findOne({ _id: 1 });
     const prof_res_result = await db.collection('prof_res').findOne({ _id: 1 });
     const hufs_res_result = await db.collection('hufs_res').findOne({ _id: 1 });
 
+    const stu_res_dinner_result = await db.collection('stu_res_dinner').findOne({ _id: 1 });
+    const hufs_res_breakfast_result = await db.collection('hufs_res_breakfast').findOne({ _id: 1 });
+    const hufs_res_dinner_result = await db.collection('hufs_res_dinner').findOne({ _id: 1 });
+
     today_stu_res = stu_res_result.stu_res[dayOfWeek];
     today_prof_res = prof_res_result.prof_res[dayOfWeek];
     today_hufs_res = hufs_res_result.hufs_res[dayOfWeek];
 
-    res.render('menu.ejs', { "stu_res": today_stu_res, "prof_res": today_prof_res, "hufs_res": today_hufs_res, "GoogleMapApiKey": process.env.GOOGLE_MAP_API_KEY});
+    today_stu_res_dinner = stu_res_dinner_result.stu_res_dinner[dayOfWeek];
+    today_hufs_res_breakfast = hufs_res_breakfast_result.hufs_res_breakfast[dayOfWeek];
+    today_hufs_res_dinner = hufs_res_dinner_result.hufs_res_dinner[dayOfWeek];
+
+    res.render('menu.ejs', { "stu_res": today_stu_res, "prof_res": today_prof_res, "hufs_res": today_hufs_res, 
+    "stu_res_dinner": today_stu_res_dinner, "hufs_res_breakfast": today_hufs_res_breakfast, "hufs_res_dinner": today_hufs_res_dinner, "GoogleMapApiKey": process.env.GOOGLE_MAP_API_KEY});
 });
 
 app.get('/subscribe', (요청, 응답) => {

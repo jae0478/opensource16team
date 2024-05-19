@@ -68,7 +68,14 @@
                 <div class="card">
                     <div class="card-header">후생관 학생식당</div>
                     <div class="card-body">
-                        <h5 class="card-title">메뉴</h5>
+                        <h5 class="card-title">아침</h5>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                등록된 메뉴가없습니다.
+                            </li>
+                        </ul>
+                        <br>
+                        <h5 class="card-title">점심</h5>
                         <ul class="list-group list-group-flush">
                             <% stu_res.forEach(item => { %>
                                 <li class="list-group-item">
@@ -76,6 +83,16 @@
                                 </li>
                             <% }) %>
                         </ul>
+                        <br>
+                        <h5 class="card-title">저녁</h5>
+                        <ul class="list-group list-group-flush">
+                            <% stu_res_dinner.forEach(item => { %>
+                                <li class="list-group-item">
+                                    <%= item %>
+                                </li>
+                            <% }) %>
+                        </ul>
+                        <br>
                     </div>
                 </div>
             </div>
@@ -83,7 +100,14 @@
                 <div class="card">
                     <div class="card-header">후생관 교직원식당</div>
                     <div class="card-body">
-                        <h5 class="card-title">메뉴</h5>
+                        <h5 class="card-title">아침</h5>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                등록된 메뉴가없습니다.
+                            </li>
+                        </ul>
+                        <br>
+                        <h5 class="card-title">점심</h5>
                         <ul class="list-group list-group-flush">
                             <% prof_res.forEach(item => { %>
                                 <li class="list-group-item">
@@ -91,6 +115,14 @@
                                 </li>
                             <% }) %>
                         </ul>
+                        <br>
+                        <h5 class="card-title">저녁</h5>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                등록된 메뉴가없습니다.
+                            </li>
+                        </ul>
+                        <br>
                     </div>
                 </div>
             </div>
@@ -98,7 +130,16 @@
                 <div class="card">
                     <div class="card-header">HufsDorm 식당</div>
                     <div class="card-body">
-                        <h5 class="card-title">메뉴</h5>
+                        <h5 class="card-title">아침</h5>
+                        <ul class="list-group list-group-flush">
+                            <% hufs_res_breakfast.forEach(item => { %>
+                                <li class="list-group-item">
+                                    <%= item %>
+                                </li>
+                            <% }) %>
+                        </ul>
+                        <br>
+                        <h5 class="card-title">점심</h5>
                         <ul class="list-group list-group-flush">
                             <% hufs_res.forEach(item => { %>
                                 <li class="list-group-item">
@@ -106,6 +147,16 @@
                                 </li>
                             <% }) %>
                         </ul>
+                        <br>
+                        <h5 class="card-title">저녁</h5>
+                        <ul class="list-group list-group-flush">
+                            <% hufs_res_dinner.forEach(item => { %>
+                                <li class="list-group-item">
+                                    <%= item %>
+                                </li>
+                            <% }) %>
+                        </ul>
+                        <br>
                     </div>
                 </div>
             </div>
