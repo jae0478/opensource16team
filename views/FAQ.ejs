@@ -1,62 +1,194 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FAQ Chat Format</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>자주 묻는 질문</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
     <style>
-        .faq-container {
-            max-width: 800px;
-            margin: 0 auto;
+        .accordion-content {
+            overflow: hidden;
+            max-height: 0;
+            transition: max-height 0.3s ease-out;
         }
-        .faq-item {
-            margin-bottom: 20px;
-            display: flex;
-            flex-direction: column;
+
+        .accordion-content.open {
+            max-height: 1000px;
+            /* 충분히 큰 값으로 설정 */
         }
-        .faq-question {
-            background-color: #e0f7fa;
-            border-radius: 15px 15px 0 15px;
-            padding: 15px;
-            max-width: 45%;
-            align-self: flex-start;
-            margin-bottom: 10px;
+
+        .icon-radix {
+            transform: rotate(0deg);
+            /* 닫혀 있을 때 ^ 표시로 변경 */
         }
-        .faq-answer {
-            background-color: #ffe0b2;
-            border-radius: 15px 15px 15px 0;
-            padding: 15px;
-            max-width: 45%;
-            align-self: flex-end;
-            margin-bottom: 10px;
+
+        .icon-open {
+            transform: rotate(180deg);
+            /* 열려 있을 때 ^ 표시로 변경 */
         }
     </style>
 </head>
+
 <body>
-    <div class="container my-5 faq-container">
-        <h1 class="text-center">자주 묻는 질문 (FAQ)</h1>
-        <div class="faq-item">
-            <div class="faq-question">Q: 오늘의 학식 메뉴는 어떻게 확인하나요?</div>
-            <div class="faq-answer">A: 웹사이트의 "오늘의 메뉴" 섹션에서 확인할 수 있으며, 이메일 알림 서비스를 통해 매일 메뉴를 받아볼 수 있습니다.</div>
+    <section class="w-full py-12 md:py-24 lg:py-32">
+        <div class="container px-4 md:px-6 max-w-4xl mx-auto">
+            <div class="space-y-4 text-center">
+                <h1 class="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">자주 묻는 질문</h1>
+                <p class="text-gray-500 dark:text-gray-400 max-w-[600px] mx-auto">
+                    궁금한 점이 있나요? 아래 자주 묻는 질문을 확인해보세요.
+                </p>
+            </div>
+            <div class="mt-12 space-y-4">
+                <div data-orientation="vertical">
+                    <div data-state="closed" data-orientation="vertical" class="border-b">
+                        <h3 data-orientation="vertical" data-state="closed" class="flex">
+                            <button type="button" aria-controls="radix-1" aria-expanded="false" data-state="closed"
+                                data-orientation="vertical" id="radix-button-1"
+                                class="flex flex-1 items-center justify-between py-4 transition-all hover:underline text-base font-medium"
+                                onclick="toggleAccordion('radix-1')">
+                                제품 배송은 얼마나 걸리나요?
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    class="h-4 w-4 shrink-0 transition-transform duration-200 icon-radix">
+                                    <path d="m6 9 6 6 6-6"></path>
+                                </svg>
+                            </button>
+                        </h3>
+                        <div data-state="closed" id="radix-1" role="region" aria-labelledby="radix-button-1"
+                            data-orientation="vertical" class="accordion-content text-sm">
+                            <p class="py-4">제품 배송은 보통 3-5일 정도 소요됩니다.</p>
+                        </div>
+                    </div>
+                    <div data-state="closed" data-orientation="vertical" class="border-b">
+                        <h3 data-orientation="vertical" data-state="closed" class="flex">
+                            <button type="button" aria-controls="radix-2" aria-expanded="false" data-state="closed"
+                                data-orientation="vertical" id="radix-button-2"
+                                class="flex flex-1 items-center justify-between py-4 transition-all hover:underline text-base font-medium"
+                                onclick="toggleAccordion('radix-2')">
+                                반품 및 환불 정책은 어떻게 되나요?
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    class="h-4 w-4 shrink-0 transition-transform duration-200 icon-radix">
+                                    <path d="m6 9 6 6 6-6"></path>
+                                </svg>
+                            </button>
+                        </h3>
+                        <div data-state="closed" id="radix-2" role="region" aria-labelledby="radix-button-2"
+                            data-orientation="vertical" class="accordion-content text-sm">
+                            <p class="py-4">반품 및 환불은 제품 수령 후 7일 이내에 가능합니다.</p>
+                        </div>
+                    </div>
+                    <div data-state="closed" data-orientation="vertical" class="border-b">
+                        <h3 data-orientation="vertical" data-state="closed" class="flex">
+                            <button type="button" aria-controls="radix-3" aria-expanded="false" data-state="closed"
+                                data-orientation="vertical" id="radix-button-3"
+                                class="flex flex-1 items-center justify-between py-4 transition-all hover:underline text-base font-medium"
+                                onclick="toggleAccordion('radix-3')">
+                                제품 A와 제품 B의 차이점은 무엇인가요?
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    class="h-4 w-4 shrink-0 transition-transform duration-200 icon-radix">
+                                    <path d="m6 9 6 6 6-6"></path>
+                                </svg>
+                            </button>
+                        </h3>
+                        <div data-state="closed" id="radix-3" role="region" aria-labelledby="radix-button-3"
+                            data-orientation="vertical" class="accordion-content text-sm">
+                            <p class="py-4">제품 A는 기본 모델이며, 제품 B는 추가 기능이 포함된 모델입니다.</p>
+                        </div>
+                    </div>
+                    <div data-state="closed" data-orientation="vertical" class="border-b">
+                        <h3 data-orientation="vertical" data-state="closed" class="flex">
+                            <button type="button" aria-controls="radix-4" aria-expanded="false" data-state="closed"
+                                data-orientation="vertical" id="radix-button-4"
+                                class="flex flex-1 items-center justify-between py-4 transition-all hover:underline text-base font-medium"
+                                onclick="toggleAccordion('radix-4')">
+                                주문 취소 및 변경은 어떻게 하나요?
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    class="h-4 w-4 shrink-0 transition-transform duration-200 icon-radix">
+                                    <path d="m6 9 6 6 6-6"></path>
+                                </svg>
+                            </button>
+                        </h3>
+                        <div data-state="closed" id="radix-4" role="region" aria-labelledby="radix-button-4"
+                            data-orientation="vertical" class="accordion-content text-sm">
+                            <p class="py-4">주문 취소 및 변경은 주문 후 24시간 이내에 가능합니다.</p>
+                        </div>
+                    </div>
+                    <div data-state="closed" data-orientation="vertical" class="border-b">
+                        <h3 data-orientation="vertical" data-state="closed" class="flex">
+                            <button type="button" aria-controls="radix-5" aria-expanded="false" data-state="closed"
+                                data-orientation="vertical" id="radix-button-5"
+                                class="flex flex-1 items-center justify-between py-4 transition-all hover:underline text-base font-medium"
+                                onclick="toggleAccordion('radix-5')">
+                                제품 A의 A/S는 어떻게 받을 수 있나요?
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    class="h-4 w-4 shrink-0 transition-transform duration-200 icon-radix">
+                                    <path d="m6 9 6 6 6-6"></path>
+                                </svg>
+                            </button>
+                        </h3>
+                        <div data-state="closed" id="radix-5" role="region" aria-labelledby="radix-button-5"
+                            data-orientation="vertical" class="accordion-content text-sm">
+                            <p class="py-4">제품 A의 A/S는 고객 지원 센터에 문의하여 받을 수 있습니다.</p>
+                        </div>
+                    </div>
+                    
+                    <div data-state="closed" data-orientation="vertical" class="border-b">
+                        <h3 data-orientation="vertical" data-state="closed" class="flex">
+                            <button type="button" aria-controls="radix-6" aria-expanded="false" data-state="closed"
+                                data-orientation="vertical" id="radix-button-6"
+                                class="flex flex-1 items-center justify-between py-4 transition-all hover:underline text-base font-medium"
+                                onclick="toggleAccordion('radix-6')">
+                                항목 제목을 입력하세요
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                    class="h-4 w-4 shrink-0 transition-transform duration-200 icon-radix">
+                                    <path d="m6 9 6 6 6-6"></path>
+                                </svg>
+                            </button>
+                        </h3>
+                        <div data-state="closed" id="radix-6" role="region" aria-labelledby="radix-button-6"
+                            data-orientation="vertical" class="accordion-content text-sm">
+                            <p class="py-4">항목 내용을 입력하세요.</p>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
         </div>
-        <div class="faq-item">
-            <div class="faq-question">Q: 학식 메뉴에 알레르기 정보가 포함되어 있나요?</div>
-            <div class="faq-answer">A: 네, 각 메뉴에는 알레르기 유발 물질에 대한 정보가 함께 제공됩니다.</div>
-        </div>
-        <div class="faq-item">
-            <div class="faq-question">Q: 학식을 미리 주문할 수 있나요?</div>
-            <div class="faq-answer">A: 네, 웹사이트에서 온라인으로 학식을 미리 주문하고 결제할 수 있습니다.</div>
-        </div>
-        <div class="faq-item">
-            <div class="faq-question">Q: 결제는 어떤 방법으로 할 수 있나요?</div>
-            <div class="faq-answer">A: 신용카드, 체크카드, 모바일 페이 등 다양한 결제 수단을 지원합니다.</div>
-        </div>
-    </div>
-    <!-- Bootstrap JS and dependencies -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    </section>
+
+    <script>
+        function toggleAccordion(id) {
+            const content = document.getElementById(id);
+            const button = document.querySelector(`button[aria-controls="${id}"]`);
+            const isOpen = content.getAttribute('data-state') === 'open';
+
+            if (isOpen) {
+                content.style.maxHeight = '0';
+                button.querySelector('svg').classList.remove('icon-open');
+                button.querySelector('svg').classList.add('icon-radix');
+            } else {
+                content.style.maxHeight = content.scrollHeight + 'px';
+                button.querySelector('svg').classList.remove('icon-radix');
+                button.querySelector('svg').classList.add('icon-open');
+            }
+
+            content.setAttribute('data-state', isOpen ? 'closed' : 'open');
+            button.setAttribute('aria-expanded', !isOpen);
+        }
+    </script>
 </body>
+
 </html>
