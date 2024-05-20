@@ -628,3 +628,6 @@ app.get('/detail/:id', function (요청, 응답) {
         }
     });
 });
+app.get('/FAQ', function(요청, 응답) {
+    응답.render('FAQ.ejs');
+})
