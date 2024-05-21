@@ -13,9 +13,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
-
     <!-- tailwindcss 참조 -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!--<script src="style.js"></script>-->
     <style>
         body {
             font-family: 'Jua', sans-serif;
@@ -76,7 +76,7 @@
     </style>
 </head>
 
-<body class="bg-gray-100 dark:bg-gray-900">
+<body class="bg-gray-100 dark:bg-gray-900" >
     <div class="flex flex-col min-h-screen">
         <header class="px-4 lg:px-6 h-14 flex items-center bg-[#F79F81] text-white">
             <a class="flex items-center justify-center" href="/">
@@ -110,7 +110,7 @@
                                 학교 근처 식당의 남은 음식을 저렴하게 구매할 수 있는 플랫폼입니다.
                             </p>
                         </div>
-                        <div class="space-x-4">
+                        <!--<div class="space-x-4">-->
                             <div>
                                 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" class="goo">
                                   <defs>
@@ -121,7 +121,6 @@
                                     </filter>
                                   </defs>
                                 </svg>
-                                
                                 <span class="button--bubble__container">
                                   <a href="/subscribe" class="button button--bubble">
                                     구독하기
@@ -139,7 +138,7 @@
                                   </span>
                                 </span>
                             </div>
-                        </div>
+                        <!--</div>-->
                     </div>
                 </div>
             </section>
@@ -228,9 +227,14 @@
         </footer>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/TimelineLite.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/EasePack.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+    <script src="public/style.js"></script>
 </body>
 
 </html>
