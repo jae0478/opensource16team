@@ -119,12 +119,14 @@
                                     class="flex h-10 w-72 rounded-md border border-transparent bg-white px-4 py-2 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#374151] flex-1"
                                     placeholder="이메일 주소 입력" type="email" required>
                                 <div class="invalid-feedback">올바른 이메일 형식이 아닙니다.</div>
-                                <div class="subscribe_email" style="display: none;">이미 구독 중인 이메일입니다.</div>
                                 <button  type="submit"
                                     class="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-[#4B5563] px-6 py-2 text-sm font-medium text-white shadow-md transition-colors hover:bg-[#374151] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#374151]">
                                     구독하기
                                 </button>
                             </div>
+                            <% if (typeof data !== 'undefined') { %>
+                                <p class="subscribe_email" style="font-size: 14px;"><%= data %></p>
+                            <% } %>
                         </form>
                     </div>
                 </div>
