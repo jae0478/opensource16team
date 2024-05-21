@@ -334,7 +334,9 @@ app.get('/subscribe', (요청, 응답) => {
 app.post('/subscribe', (req, res) => {
     db.collection('email_information').findOne({ email: req.body.email }, function (에러, 결과) {
         if (에러) { res.send("에러입니다.") }
-        else if (결과) { res.send('이미 구독 중입니다 :)') }
+        else if (결과) { 
+            res.render("mail.ejs", {data: "이미 구독 중인 계정입니다."});
+         }
         else {
             db.collection('email_information').insertOne({ email: req.body.email }, function (에러, 결과) {
                 console.log("이메일 저장 완료");
@@ -628,3 +630,6 @@ app.get('/detail/:id', function (요청, 응답) {
         }
     });
 });
+app.get('/FAQ', function(요청, 응답) {
+    응답.render('FAQ.ejs');
+})
