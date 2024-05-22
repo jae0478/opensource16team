@@ -330,6 +330,10 @@ app.get('/subscribe', (요청, 응답) => {
     응답.render('mail.ejs');
 })
 
+app.get('/info', (요청, 응답) => {
+    응답.render('info.ejs', {"GoogleMapApiKey": process.env.GOOGLE_MAP_API_KEY});
+})
+
 // /subscribe로 post 요청 받으면
 app.post('/subscribe', (req, res) => {
     db.collection('email_information').findOne({ email: req.body.email }, function (에러, 결과) {
