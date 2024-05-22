@@ -7,7 +7,7 @@
     box-sizing: border-box;
   }
 
-  div{
+  div {
     display: block;
     height: 100%;
     animation: hue-rotate 10s linear infinite;
@@ -34,7 +34,7 @@
       background-color: $action-color;
       color: #fff;
     }
-    
+
     &:active {
       transform: scale(0.95);
     }
@@ -101,13 +101,13 @@
       transition: background 0.1s ease-out;
 
       &.top-left {
-          top: 40%;
-          left: 27%;
+        top: 40%;
+        left: 27%;
       }
 
       &.bottom-right {
-          bottom: 40%;
-          right: 27%;
+        bottom: 40%;
+        right: 27%;
       }
     }
   }
@@ -131,17 +131,17 @@
   }
 
   @keyframes hue-rotate {
-        from {
-          -webkit-filter: hue-rotate(0);
-          -moz-filter: hue-rotate(0);
-          -ms-filter: hue-rotate(0);
-          filter: hue-rotate(0);
-        }
-        to {
-          -webkit-filter: hue-rotate(360deg);
-          -moz-filter: hue-rotate(360deg);
-          -ms-filter: hue-rotate(360deg);
-          filter: hue-rotate(360deg);
-        }
+    from {
+      -webkit-filter: hue-rotate(0);
+      -moz-filter: hue-rotate(0);
+      -ms-filter: hue-rotate(0);
+      filter: hue-rotate(0);
+    }
+    to {
+      -webkit-filter: hue-rotate(360deg);
+      -moz-filter: hue-rotate(360deg);
+      -ms-filter: hue-rotate(360deg);
+      filter: hue-rotate(360deg);
+    }
   }
 }
