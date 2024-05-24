@@ -11,63 +11,103 @@
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
     <link rel="stylesheet" href="/public/main.css">
-    
+
     <title>Hello, world!</title>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+
     <style>
         * {
             font-family: 'Jua', sans-serif;
         }
+
         h4 {
             font-family: 'Jua', sans-serif;
         }
+
     </style>
 </head>
 
 <body>
-    <!-- 저장되어 있는 할 일들 보여주는 페이지 -->
-
-    <%- include('nav.html') %>
-
-    <!-- server에서 가져온 데이터 활용 -->
-    <h4 class="ml-2 my-3 text-center">서버에서 가져온 할일 리스트</h4>
-
-    <!-- 글쓰기 버튼 -->
-    <div class="wrapper">
-        <div class="container">
-            <a href="/write" title="Button fade purple" class="button btnFade btnPurple">글쓰기</a>
-        <!--</button>-->
+    <header class="px-4 lg:px-6 h-14 flex items-center bg-[#F79F81] text-white">
+        <a class="flex items-center justify-center" href="/">
+            
+            <h5 style="font-size: 20px;" class="hover:text-gray-200">한끼줍쇼</h5>
+        </a>
+        <nav class="ml-auto flex gap-4 sm:gap-6">
+            <a class="text-sm font-medium hover:text-gray-200 no-underline" href="/menu">학식 메뉴</a>
+            <a class="text-sm font-medium hover:text-gray-200 no-underline" href="/list">학식 이야기</a>
+            <a class="text-sm font-medium hover:text-gray-200 no-underline" href="/subscribe">구독하기</a>
+            <a class="text-sm font-medium hover:text-gray-200 no-underline" href="/info">식당 정보</a>
+            <a class="text-sm font-medium hover:text-gray-200 no-underline" href="/FAQ">자주 묻는 질문</a>
+            <a class="text-sm font-medium hover:text-gray-200 no-underline" href="/login">로그인</a>
+            <a class="text-sm font-medium hover:text-gray-200 no-underline" href="/logout">로그아웃</a>
+            <a class="text-sm font-medium hover:text-gray-200 no-underline" href="/register">회원가입</a>
+            <a class="text-sm font-medium hover:text-gray-200 no-underline" href="/mypage">마이페이지</a>
+        </nav>
+    </header>
+    <div class="container mx-auto grid grid-cols-1 gap-8 py-8 md:grid-cols-[3fr_1fr]">
+        <div>
+            <div class="container">
+                <ul class="list-group">
+                    <% for (var i=0; i<posts.length; i++) { %>
+                        <li class="list-group-item d-flex justify-content-between align-items-center" style="padding: 20px;">
+                            <!-- <p>글번호 : <%= posts[i]._id %> -->
+                            <!-- </p> -->
+                            <div>
+                                <a href="/detail/<%= posts[i]._id %>" style="font-size: 22px;" class="hover:text-gray-500"><%= posts[i].제목 %></a>
+                                <p style="color: rgb(112, 112, 112);"><%= posts[i].본문 %></p>
+                                <p style="font-size: 12px; color: rgb(112, 112, 112);"><%= posts[i].작성시간 %></p>
+                            </div>
+                            <!-- 내 글만 삭제 가능하게 -->
+                            <% if (JSON.stringify(user._id)==JSON.stringify(posts[i].작성자)) { %>
+                                <button class="btn btn-danger delete" data-id="<%= posts[i]._id %>" style="font-size: 13px;">삭제</button>
+                                <% } else { %>
+                                    <button class="btn btn-danger delete hide" data-id="<%= posts[i]._id %>" style="font-size: 13px;">삭제</button>
+                                    <% } %>
+                        </li>
+                        <% } %>
+                </ul>
+            </div>
         </div>
-    </div>
-    <div class="container input-group mb-2">
-        <input class="form-control" id="search-input">
-        <button class="input-group-append btn btn-danger" id="search">검색</button>
+        <div class="space-y-8">
+            <div class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-950">
+                <h3 class="text-lg px-3">검색하기</h3>
+                <div class="mt-4">
+                    <div class="container input-group mb-2">
+                        
+                        <input
+              class="form-control flex h-10 border border-input ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full rounded-md bg-gray-100 px-3 py-2 text-sm shadow-none focus:bg-gray-200 dark:bg-gray-800 dark:focus:bg-gray-700"
+              id="search-input"
+              placeholder="제목의 키워드를 입력해보세요"
+            />
+                        <!-- <input class="form-control" id="search-input"> -->
+                        <button class="input-group-append btn btn-danger" id="search">검색</button>
+                    </div>
+                </div>
+            </div>
+            <div class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-950">
+                <h3 class="text-lg px-3">글 쓰기</h3>
+                <div class="mt-4">
+                    <!-- 글쓰기 버튼 -->
+                    <div class="wrapper">
+                        <div class="container">
+                            <a href="/write" title="Button fade purple" class="btn btn-danger">글을 작성하고 싶다면 이 버튼을 눌러보세요:)</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
     </div>
 
-
-    <div class="container">
-        <ul class="list-group">
-            <% for (var i=0; i<posts.length; i++) { %>
-                <li class="list-group-item">
-                    <p>글번호 : <%= posts[i]._id %></p>
-                    <a href="/detail/<%= posts[i]._id %>">제목 : <%= posts[i].제목 %>
-                    </a>
-                    <p>본문 : <%= posts[i].본문 %>
-                    </p>
-                    <p>작성시간 : <%= posts[i].작성시간 %>
-                    </p>
-                    <!-- 내 글만 삭제 가능하게 -->
-                    <% if (JSON.stringify(user._id) == JSON.stringify(posts[i].작성자)) { %>
-                        <button class="btn btn-danger delete" data-id="<%= posts[i]._id %>">삭제</button>
-                    <% } else { %>
-                        <button class="btn btn-danger delete hide" data-id="<%= posts[i]._id %>">삭제</button>
-                    <% } %>
-                </li>
-            <% } %>
-        </ul>
-    </div>
+    <footer class="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t border-gray-200 dark:border-gray-700">
+        <p class="text-xs text-gray-500 dark:text-gray-400">© 2024 한끼줍쇼. All rights reserved.</p>
+        <nav class="sm:ml-auto flex gap-4 sm:gap-6">
+        </nav>
+    </footer>
     <!-- jquery 태그 -->
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 
@@ -79,18 +119,21 @@
             $.ajax({
                 method: 'DELETE',
                 url: '/delete',
-                data: { _id : 글번호 }
+                data: { _id: 글번호 }
             }).done(function (결과) {
                 console.log(결과);
                 console.log('성공했어염');
-                지금누른거.parent('li').fadeOut();
+                
+                지금누른거.closest('li').fadeOut(500, function() {
+                    $(this).remove();
+                });
             }).fail(function (xhr, textStatus, errorThrown) {
                 console.log(xhr, textStatus, errorThrown);
             });
         });
 
         // 검색 버튼 누르면 서버로 get 요청하기
-        $('#search').click(function(){
+        $('#search').click(function () {
             var 입력한값 = $('#search-input').val();
             window.location.replace('/search?value=' + 입력한값);   // query string, query parameter
         });
