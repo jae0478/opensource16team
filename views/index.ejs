@@ -7,7 +7,6 @@
     <title>한끼줍쇼</title>
     <!-- CSS 참조 -->
     <link rel="stylesheet" type="text/css" href="public/main.css">
-    <link rel="stylesheet" type="text/css" href="public/style.css">
     <!--<link rel="stylesheet" type="text/css" href="public/style.css">-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -75,6 +74,7 @@
             font-size: 0.875rem;
             color: #999;
         }
+        
     </style>
 </head>
 
@@ -112,11 +112,11 @@
                                 </h1>
                             </div>
                             <p class="mx-auto max-w-[700px] text-gray-200 md:text-xl">
-                                학교 근처 식당의 남은 음식을 저렴하게 구매할 수 있는 플랫폼입니다.
+                                한끼줍쇼를 구독하고 이메일로 오늘의 메뉴를 받아보세요
                             </p>
                         </div>
                         <div class="space-x-4">
-                            <div>
+                            <!--<div>
                                 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" class="goo">
                                   <defs>
                                     <filter id="goo">
@@ -142,16 +142,15 @@
                                     <span class="circle bottom-right"></span>
                                   </span>
                                 </span>
-                            </div>
-                            <!--<a class="inline-flex h-10 items-center justify-center rounded-md bg-white px-6 py-2 text-sm font-medium text-[#4B5563] shadow transition-colors hover:bg-gray-200 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#374151] disabled:pointer-events-none disabled:opacity-50"
-                                href="/subscribe">구독하기</a>-->
+                            </div>-->
+                            <a class="inline-flex h-10 items-center justify-center rounded-md bg-white px-6 py-2 text-sm font-medium text-[#4B5563] shadow transition-colors hover:bg-gray-200 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#374151] disabled:pointer-events-none disabled:opacity-50"
+                                href="/subscribe">구독하기</a>
                         </div>
                     </div>
                 </div>
             </section>
             <section class="w-full py-12 md:py-24 lg:py-32 bg-gray-100 dark:bg-gray-800">
                 <div class="container px-4 md:px-6">
-                    <h2 class="section-title text-gray-900 dark:text-gray-100">오늘의 학식 메뉴</h2>
                     <div class="grid items-center gap-6 lg:grid-cols-[1fr_500px] lg:gap-12 xl:grid-cols-[1fr_550px]">
                         <img alt="학식 메뉴" class="mx-auto aspect-video overflow-hidden rounded-xl object-cover object-center sm:w-full lg:order-last"
                             height="310" src="/placeholder.svg" width="550" />
@@ -159,7 +158,7 @@
                             <div class="highlight text-gray-700 dark:text-gray-300">학식 메뉴</div>
                             <h2 class="text-3xl font-bold tracking-tighter sm:text-5xl text-gray-900 dark:text-gray-100">오늘의 학식 메뉴</h2>
                             <p class="max-w-[600px] text-gray-600 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
-                                학교 근처 식당에서 제공하는 오늘의 학식 메뉴를 확인하고 저렴하게 구매하세요.
+                                오늘의 후생관 학생식당 메뉴를 빠르게 알 수 있어요
                             </p>
                         </div>
                     </div>
@@ -167,15 +166,24 @@
             </section>
             <section class="w-full py-12 md:py-24 lg:py-32 bg-gray-100 dark:bg-gray-800">
                 <div class="container px-4 md:px-6">
-                    <h2 class="section-title text-gray-900 dark:text-gray-100">한끼줍쇼 이용하는 방법</h2>
                     <div class="grid items-center gap-6 lg:grid-cols-[500px_1fr] lg:gap-12 xl:grid-cols-[550px_1fr]">
                         <img alt="이용 방법" class="mx-auto aspect-video overflow-hidden rounded-xl object-cover object-center sm:w-full"
                             height="310" src="/placeholder.svg" width="550" />
+                            <!--<div class="card">
+                                <h5 class="card-title">점심</h5>
+                                <ul class="list-group list-group-flush">
+                                    <% stu_res.forEach(item => { %>
+                                        <li class="list-group-item">
+                                            <%= item %>
+                                        </li>
+                                    <% }) %>
+                                </ul>
+                            </div> 후생관 학생 식당의 오늘의 메뉴 가져오고 싶은데 어케 함-->
                         <div class="flex flex-col justify-center space-y-4">
                             <div class="highlight text-gray-700 dark:text-gray-300">이용 방법</div>
                             <h2 class="text-3xl font-bold tracking-tighter sm:text-5xl text-gray-900 dark:text-gray-100">한끼줍쇼 이용하는 방법</h2>
                             <p class="max-w-[600px] text-gray-600 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
-                                한끼줍쇼 앱을 다운로드하고 학교 근처 식당의 남은 음식을 저렴하게 구매하세요.
+                                한끼줍쇼 웹을 검색하여 오늘의 학식 메뉴를 알아보고 메뉴에 대해 글을 작성해 보아요
                             </p>
                         </div>
                     </div>
@@ -183,7 +191,6 @@
             </section>
             <section class="w-full py-12 md:py-24 lg:py-32 bg-gray-100 dark:bg-gray-800">
                 <div class="container px-4 md:px-6">
-                    <h2 class="section-title text-gray-900 dark:text-gray-100">한끼줍쇼 소개</h2>
                     <div class="grid items-center gap-6 lg:grid-cols-[1fr_500px] lg:gap-12 xl:grid-cols-[1fr_550px]">
                         <img alt="소개" class="mx-auto aspect-video overflow-hidden rounded-xl object-cover object-center sm:w-full lg:order-last"
                             height="310" src="/placeholder.svg" width="550" />
@@ -191,7 +198,7 @@
                             <div class="highlight text-gray-700 dark:text-gray-300">소개</div>
                             <h2 class="text-3xl font-bold tracking-tighter sm:text-5xl text-gray-900 dark:text-gray-100">한끼줍쇼 소개</h2>
                             <p class="max-w-[600px] text-gray-600 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
-                                한끼줍쇼는 학교 근처 식당의 남은 음식을 저렴하게 구매할 수 있는 플랫폼입니다. 음식 낭비를 줄이고 학생들의 식비를 절감할 수 있습니다.
+                                한끼줍쇼는 학교 안에 있는 식당들의 메뉴를 알려주는 웹사이트입니다
                             </p>
                         </div>
                     </div>
@@ -204,7 +211,7 @@
                             <h7 class="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl text-white">사용자 후기</h7>
                         </div>
                         <p class="mx-auto max-w-[700px] text-gray-200 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                            한끼줍쇼를 이용한 사용자들의 후기를 확인해보세요.
+                            한끼줍쇼를 이용한 사용자들의 후기를 확인해보세요
                         </p>
                     </div>
                     <div class="grid w-full grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">

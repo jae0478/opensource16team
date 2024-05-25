@@ -4,12 +4,16 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="public/main.css">
     <title>한끼줍쇼</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
+    <!-- tailwindcss 참조 -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" type="text/css" href="public/login.css">
     <style>
         body {
@@ -22,25 +26,47 @@
 </head>
 
 <body>
-    <%- include('nav.html') %>
+    <header class="px-4 lg:px-6 h-14 flex items-center text-black">
+        <a class="flex items-center justify-center" href="/">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="h-6 w-6 text-black">
+                <path d="m8 3 4 8 5-5 5 15H2L8 3z"></path>
+            </svg>
+            <span class="sr-only">한끼줍쇼</span>
+        </a>
+        <nav class="ml-auto flex gap-4 sm:gap-6">
+            <a class="text-sm font-medium hover:text-gray-200 no-underline" href="/menu">학식 메뉴</a>
+                <a class="text-sm font-medium hover:text-gray-200 no-underline" href="/list">학식 이야기</a>
+                <a class="text-sm font-medium hover:text-gray-200 no-underline" href="/subscribe">구독하기</a>
+                <a class="text-sm font-medium hover:text-gray-200 no-underline" href="/info">식당 정보</a>
+                <a class="text-sm font-medium hover:text-gray-200 no-underline" href="/FAQ">자주 묻는 질문</a>
+                <a class="text-sm font-medium hover:text-gray-200 no-underline" href="/login">로그인</a>
+                <a class="text-sm font-medium hover:text-gray-200 no-underline" href="/logout">로그아웃</a>
+                <a class="text-sm font-medium hover:text-gray-200 no-underline" href="/register">회원가입</a>
+                <a class="text-sm font-medium hover:text-gray-200 no-underline" href="/mypage">마이페이지</a>
+        </nav>
+    </header>
 
-    <div class="login-wrapper">
-        <h4 class="text-center">Login</h4>
+    <div class="container-signup">
+        <div class="login-wrapper">
+            <h4 class="text-center">Login</h4>
 
-        <form action="/login" method="post" id="login-from">
-            <div class="mb-3">
-                <input type="text" class="form-control" name="id" placeholder="Email">
-            </div>
-            <div class="mb-3">
-                <input type="text" class="form-control" name="pw" placeholder="Password">
-            </div>
-            <div class="mb-3">
-                <label for="remember-check">
-                    <input type="checkbox" id="remember-check">아이디 저장하기
-                </label>
-            </div>
-            <button type="submit" class="btn btn-danger">Submit</button>
-        </form>
+            <form action="/login" method="post" id="login-from">
+                <div class="mb-3">
+                    <input type="text" class="form-control" name="id" placeholder="Email">
+                </div>
+                <div class="mb-3">
+                    <input type="text" class="form-control" name="pw" placeholder="Password">
+                </div>
+                <div class="mb-3">
+                    <label for="remember-check">
+                        <input type="checkbox" id="remember-check">아이디 저장하기
+                    </label>
+                </div>
+                <button type="submit" class="btn btn-danger">Submit</button>
+            </form>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

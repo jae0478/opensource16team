@@ -57,3 +57,16 @@ body{
     background-repeat: no-repeat;
     background-size: contain;
 }
+
+.container-signup {
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 400px;
+    padding: -10px;
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+
+}
