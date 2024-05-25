@@ -528,10 +528,6 @@ passport.deserializeUser(function (아이디, done) {
     });
 });
 
-// /write로 들어오면 write.ejs 보내라
-app.get('/write', 로그인했니, function (요청, 응답) {
-    응답.render('write.ejs');
-});
 // /edit으로 접속하면 edit.ejs 보여줌
 app.get('/edit/:id', function (요청, 응답) {
     db.collection('post').findOne({ _id: parseInt(요청.params.id) }, function (에러, 결과) {
@@ -616,22 +612,10 @@ app.get('/search', (요청, 응답) => {
         }
         },
     ]
-    // 검색조건에 맞는 것들을 모두 가져와 search.ejs로 전달
+    // 검색조건에 맞는 것들을 모두 가져와 list.ejs로 전달
     db.collection('post').aggregate(검색조건).toArray((에러, 결과) => {
         console.log(결과);
-        응답.render('search.ejs', { posts : 결과, user: 요청.user});
-    });
-});
-// /detail로 접속하면 detail.ejs 보여줌
-app.get('/detail/:id', function (요청, 응답) {
-    db.collection('post').findOne({ _id: parseInt(요청.params.id) }, function (에러, 결과) {
-        if (에러 || !결과) {
-            응답.status(404).send('<h1>요청한 페이지는 없습니다.</h1>');
-        }
-        else {
-            console.log(결과);
-            응답.render('detail.ejs', { data: 결과, user : 요청.user });
-        }
+        응답.render('list.ejs', { posts : 결과, user: 요청.user});
     });
 });
 app.get('/FAQ', function(요청, 응답) {

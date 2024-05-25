@@ -27,13 +27,42 @@
             font-family: 'Jua', sans-serif;
         }
 
+        .btn-danger {
+            background-color: var(--secondary-bg-color);
+            color: var(--main-text-color);
+            border: 1px solid #F79F81;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .btn-danger:hover {
+            background-color: #F79F81;
+            color: var(--main-text-color);
+        }
+
+        .form-control:focus {
+            background-color: #fff;
+            border-color: #F79F81;
+            box-shadow: 0 0 5px rgba(247, 159, 129, 0.5);
+        }
+
+        .article {
+            font-size: 18px;
+            background-color: #F79F81;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            padding: 7px;
+            color: white;
+            padding-left: 20px;
+            text-shadow: -1px 0px 1px black, 0px 1px 1px black, 1px 1px 1px black, 0px -1px 1px black;
+        }
     </style>
 </head>
 
 <body>
-    <header class="px-4 lg:px-6 h-14 flex items-center bg-[#F79F81] text-white">
+    <header class="px-4 lg:px-6 h-14 flex items-center bg-[#F79F81] text-white"
+        style="text-shadow: -1px 0px 1px black, 0px 1px 1px black, 1px 1px 1px black, 0px -1px 1px black">
         <a class="flex items-center justify-center" href="/">
-            
+
             <h5 style="font-size: 20px;" class="hover:text-gray-200">한끼줍쇼</h5>
         </a>
         <nav class="ml-auto flex gap-4 sm:gap-6">
@@ -49,61 +78,97 @@
         </nav>
     </header>
     <div class="container mx-auto grid grid-cols-1 gap-8 py-8 md:grid-cols-[3fr_1fr]">
-        <div>
+        <div style="padding: 20px;">
             <div class="container">
-                <ul class="list-group">
+                <div class="article">게시글</div>
+                <ul class="list-group"
+                    style="border: 1px solid #F79F81; border-top-left-radius: 0px; border-top-right-radius: 0px;">
                     <% for (var i=0; i<posts.length; i++) { %>
-                        <li class="list-group-item d-flex justify-content-between align-items-center" style="padding: 20px;">
+                        <li class="list-group-item d-flex justify-content-between align-items-center"
+                            style="padding: 20px;">
                             <!-- <p>글번호 : <%= posts[i]._id %> -->
                             <!-- </p> -->
                             <div>
-                                <a href="/detail/<%= posts[i]._id %>" style="font-size: 22px;" class="hover:text-gray-500"><%= posts[i].제목 %></a>
-                                <p style="color: rgb(112, 112, 112);"><%= posts[i].본문 %></p>
-                                <p style="font-size: 12px; color: rgb(112, 112, 112);"><%= posts[i].작성시간 %></p>
+                                <p style="font-size: 22px;">
+                                    <%= posts[i].제목 %>
+                                </p>
+                                <p style="color: rgb(112, 112, 112);">
+                                    <%= posts[i].본문 %>
+                                </p>
+                                <p style="font-size: 12px; color: rgb(112, 112, 112);">
+                                    <%= posts[i].작성시간 %>
+                                </p>
                             </div>
+
                             <!-- 내 글만 삭제 가능하게 -->
                             <% if (JSON.stringify(user._id)==JSON.stringify(posts[i].작성자)) { %>
-                                <button class="btn btn-danger delete" data-id="<%= posts[i]._id %>" style="font-size: 13px;">삭제</button>
+                                <div class="ms-auto">
+                                    <a href="/edit/<%= posts[i]._id %>" class="btn btn-danger card-link"
+                                        style="font-size: 13px;">수정하기</a>
+                                    <button class="btn btn-danger delete" data-id="<%= posts[i]._id %>"
+                                        style="font-size: 13px;">삭제</button>
+                                </div>
+
                                 <% } else { %>
-                                    <button class="btn btn-danger delete hide" data-id="<%= posts[i]._id %>" style="font-size: 13px;">삭제</button>
+                                    <div class="ms-auto">
+                                        <a href="/edit/<%= posts[i]._id %>" class="btn btn-danger card-link hide"
+                                            style="font-size: 13px;">수정하기</a>
+                                        <button class="btn btn-danger delete hide" data-id="<%= posts[i]._id %>"
+                                            style="font-size: 13px;">삭제</button>
+                                    </div>
                                     <% } %>
                         </li>
                         <% } %>
                 </ul>
             </div>
         </div>
-        <div class="space-y-8">
-            <div class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-950">
-                <h3 class="text-lg px-3">검색하기</h3>
-                <div class="mt-4">
+        <div class="space-y-8" style="padding: 20px; margin-left: -30px;">
+            <div class="rounded-lg bg-white shadow-sm dark:border-gray-800 dark:bg-gray-950"
+                style="border: 1px solid #F79F81; border-radius: 11px;">
+                <h3 class="text-lg px-3 article">검색하기</h3>
+                <div class="mt-1 p-3">
+                    <label class="form-label" style="padding-left: 15px;">제목 키워드</label>
+
                     <div class="container input-group mb-2">
-                        
+
                         <input
-              class="form-control flex h-10 border border-input ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full rounded-md bg-gray-100 px-3 py-2 text-sm shadow-none focus:bg-gray-200 dark:bg-gray-800 dark:focus:bg-gray-700"
-              id="search-input"
-              placeholder="제목의 키워드를 입력해보세요"
-            />
-                        <!-- <input class="form-control" id="search-input"> -->
+                            class="form-control" style="font-size: 14px;"
+                            id="search-input" placeholder="제목의 키워드를 입력해보세요" />
                         <button class="input-group-append btn btn-danger" id="search">검색</button>
                     </div>
                 </div>
             </div>
-            <div class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-950">
-                <h3 class="text-lg px-3">글 쓰기</h3>
-                <div class="mt-4">
-                    <!-- 글쓰기 버튼 -->
-                    <div class="wrapper">
-                        <div class="container">
-                            <a href="/write" title="Button fade purple" class="btn btn-danger">글을 작성하고 싶다면 이 버튼을 눌러보세요:)</a>
-                        </div>
+            <div class="rounded-lg bg-white shadow-sm dark:border-gray-800 dark:bg-gray-950"
+                style="border: 1px solid #F79F81; border-radius: 11px;">
+                <h3 class="text-lg px-3 article">글 쓰기</h3>
+                <div class="mt-4 p-3">
+                    <div class="p-3" style="margin-top: -20px;">
+                        <form action="/add" method="post">
+                            <div class="mb-3">
+                                <label class="form-label">제목</label>
+                                <select class="form-select" aria-label="Default select example" name="title">
+                                    <option value="후생관 학생식당">후생관 학생식당</option>
+                                    <option value="후생관 교직원식당">후생관 교직원식당</option>
+                                    <option value="기숙사 식당">기숙사 식당</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">한줄평</label>
+                                <input class="form-control" name="content" placeholder="한줄평을 작성해보세요">
+                            </div>
+                            <div class="d-flex justify-content-end">
+                                <button type="submit" class="btn btn-danger">작성완료</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
-        
+
     </div>
 
-    <footer class="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t border-gray-200 dark:border-gray-700">
+    <footer
+        class="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t border-gray-200 dark:border-gray-700">
         <p class="text-xs text-gray-500 dark:text-gray-400">© 2024 한끼줍쇼. All rights reserved.</p>
         <nav class="sm:ml-auto flex gap-4 sm:gap-6">
         </nav>
@@ -123,8 +188,8 @@
             }).done(function (결과) {
                 console.log(결과);
                 console.log('성공했어염');
-                
-                지금누른거.closest('li').fadeOut(500, function() {
+
+                지금누른거.closest('li').fadeOut(500, function () {
                     $(this).remove();
                 });
             }).fail(function (xhr, textStatus, errorThrown) {
@@ -138,6 +203,13 @@
             window.location.replace('/search?value=' + 입력한값);   // query string, query parameter
         });
 
+        // 검색 입력란에서 엔터 키를 누르면 검색 버튼 클릭하기
+        $('#search-input').on('keydown', function (event) {
+            if (event.key === 'Enter') {
+                event.preventDefault(); // 폼의 기본 동작(폼 제출)을 막음
+                $('#search').click(); // 검색 버튼 클릭 이벤트를 트리거
+            }
+        });
     </script>
 
     <!-- 부트스트랩 -->
