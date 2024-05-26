@@ -169,11 +169,11 @@ function parseMenuContentForHufsDorm(content) {
     const cheerio = require('cheerio');
     const $ = cheerio.load(content);
 
-    const menu_path = '#menuTableDiv > table > tbody > tr > td';
+    const menu_path = '#menuTableDiv > table > tbody > tr:nth-child(2) > td';
     const menu_data = $(menu_path);
 
     const menu_list = [];
-    for (var i = 7; i < 14; i++) {
+    for (var i = 0; i < 7; i++) {
         const sub_menu_list = [];
         // td의 내용이 메뉴없음이면 그 텍스트 출력
         if ($(menu_data[i]).text() === "등록된 메뉴가없습니다.") {
@@ -197,11 +197,11 @@ function parseMenuContent_stu_dinner(content) {
     const cheerio = require('cheerio');
     const $ = cheerio.load(content);
 
-    const menu_path = '#menuTableDiv > table > tbody > tr > td';
+    const menu_path = '#menuTableDiv > table > tbody > tr:nth-child(3) > td';
     const menu_data = $(menu_path);
 
     const menu_list = [];
-    for (var i = 14; i < 21; i++) {
+    for (var i = 0; i < 7; i++) {
         const sub_menu_list = [];
         // td의 내용이 메뉴없음이면 그 텍스트 출력
         if ($(menu_data[i]).text() === "등록된 메뉴가없습니다.") {
@@ -252,11 +252,11 @@ function parseMenuContentForHufsDorm_dinner(content) {
     const cheerio = require('cheerio');
     const $ = cheerio.load(content);
 
-    const menu_path = '#menuTableDiv > table > tbody > tr > td';
+    const menu_path = '#menuTableDiv > table > tbody > tr:nth-child(4) > td';
     const menu_data = $(menu_path);
 
     const menu_list = [];
-    for (var i = 21; i < 28; i++) {
+    for (var i = 0; i < 7; i++) {
         const sub_menu_list = [];
         // td의 내용이 메뉴없음이면 그 텍스트 출력
         if ($(menu_data[i]).text() === "등록된 메뉴가없습니다.") {
@@ -419,13 +419,13 @@ app.post('/register', function (요청, 응답) {
     db.collection('login').findOne({ id: 요청.body.id }, function (에러, 결과) {
         if (에러) { 응답.send('에러입니다') }
         else if (결과) {
-            응답.send('이미 존재하는 아이디입니다.');
+            응답.render('register.ejs', {message : '이미 존재하는 아이디입니다.'});
         }
-        else if (!/^[A-Za-z0-9]+$/.test(요청.body.id)) {
-            응답.send('아이디는 영어와 숫자만 입력할 수 있습니다.');
+        else if (!/^[A-Za-z]+$/.test(요청.body.id)) {
+            응답.render('register.ejs', {message : '아이디는 영어만 입력할 수 있습니다.'});
         }
         else if (!/^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[\W_]).{8,}$/.test(요청.body.pw)) {
-            응답.send('비밀번호는 8자리 이상이며 영어와 숫자, 특수기호를 모두 포함해야 합니다.');
+            응답.render('register.ejs', {message : '비밀번호는 8자리 이상이며 영어와 숫자, 특수기호를 모두 포함해야 합니다.'});
         }
         else {
             // 비번 암호화해서 저장
@@ -454,7 +454,7 @@ app.post('/login', passport.authenticate('local', { // 미들웨어 씀
 app.get('/fail', function (요청, 응답) {
     // passport가 추가한 flash 메시지를 가져옴
     const flashMessage = 요청.flash('error')[0]; // 첫 번째 에러 메시지만 가져옴
-    응답.render('login.ejs', { message: flashMessage });
+    응답.render('login.ejs', { message: "틀렸습니다. 다시 입력하세요:)" });
 });
 
 // logout으로 get 요청 받았을 때
