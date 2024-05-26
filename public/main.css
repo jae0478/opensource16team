@@ -10,6 +10,7 @@ h5,
 h6 {
     font-family: var(--font-arimo), sans-serif;
 }
+
 /* 이메일 입력 필드에 추가되는 빨간색 테두리와 에러 메시지 스타일 */
 .is-invalid {
     border-color: #dc3545;
@@ -72,4 +73,8 @@ h6 {
 
 .no-underline:hover {
     text-decoration: none; /* 호버 시에도 밑줄이 안 생기게 */
+}
+
+.css-1x7pttn {
+    font-size: 20px;
 }
