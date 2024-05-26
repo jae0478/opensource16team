@@ -75,10 +75,24 @@
             color: #999;
         }
         
+        @media (min-width: 768px) {
+            .feature-card {
+                flex-basis: calc(50% - 30px);
+                max-width: calc(50% - 30px);
+            }
+            
+        }
+
+        @media (min-width: 1024px) {
+            .feature-card {
+                flex-basis: calc(25% - 30px);
+                max-width: calc(25% - 30px);
+            }
+        }
     </style>
 </head>
 
-<body class="bg-gray-100 dark:bg-gray-900" >
+<body class="bg-gray-100 dark:bg-gray-900">
     <div class="flex flex-col min-h-screen">
         <header class="px-4 lg:px-6 h-14 flex items-center bg-[#F79F81] text-white">
             <a class="flex items-center justify-center" href="/">
@@ -152,8 +166,10 @@
             <section class="w-full py-12 md:py-24 lg:py-32 bg-gray-100 dark:bg-gray-800">
                 <div class="container px-4 md:px-6">
                     <div class="grid items-center gap-6 lg:grid-cols-[1fr_500px] lg:gap-12 xl:grid-cols-[1fr_550px]">
-                        <img alt="학식 메뉴" class="mx-auto aspect-video overflow-hidden rounded-xl object-cover object-center sm:w-full lg:order-last"
-                            height="310" src="/placeholder.svg" width="550" />
+                        <div class="relative mx-auto max-w-[500px]">
+                            <!-- 이미지가 표시되지 않는다면 이미지 파일 경로를 확인하세요 -->
+                            <img class="rounded-lg shadow-lg" src="subscribe.png" alt="학식 이미지" style="width: 300px; height: 300px; object-fit: cover;" class="w-full h-[150px] md:h-[330px] object-cover rounded-lg">
+                        </div>
                         <div class="flex flex-col justify-center space-y-4">
                             <div class="highlight text-gray-700 dark:text-gray-300">학식 메뉴</div>
                             <h2 class="text-3xl font-bold tracking-tighter sm:text-5xl text-gray-900 dark:text-gray-100">오늘의 학식 메뉴</h2>
@@ -167,8 +183,30 @@
             <section class="w-full py-12 md:py-24 lg:py-32 bg-gray-100 dark:bg-gray-800">
                 <div class="container px-4 md:px-6">
                     <div class="grid items-center gap-6 lg:grid-cols-[500px_1fr] lg:gap-12 xl:grid-cols-[550px_1fr]">
-                        <img alt="이용 방법" class="mx-auto aspect-video overflow-hidden rounded-xl object-cover object-center sm:w-full"
-                            height="310" src="/placeholder.svg" width="550" />
+                        <div colspan="1" style="flex-basis: calc(100% - 30px); max-width: calc(100% - 30px); padding: 0px;" class="css-1499lde e1gj2pfq0">
+                            <img src="https://i.ibb.co/W5rgcpj/spoon-and-fork.png" width="100" height="100" >
+                            <p class="css-1x7pttn">
+                                교내 식당들의 오늘의 메뉴를 확인할 수 있어요
+                            </p>
+                        </div>
+                        <div colspan="1" style="flex-basis: calc(100% - 30px); max-width: calc(100% - 30px); padding: 0px;" class="css-1499lde e1gj2pfq0">
+                            <img src="https://i.ibb.co/Mpj60Rb/subscribe.png" width="100" height="100">
+                            <p class="css-1x7pttn">
+                                구독하기 버튼으로 매일매일 그날의 메뉴를 받아보세요
+                            </p>
+                        </div>
+                        <div colspan="1" style="flex-basis: calc(100% - 30px); max-width: calc(100% - 30px); padding: 0px;" class="css-1499lde e1gj2pfq0">
+                            <img src="https://i.ibb.co/xjfpcWV/chat.png" width="100" height="100">
+                            <p class="css-1x7pttn">
+                                메뉴에 대해 글을 작성하거나 글에 댓글을 달며 소통해 보아요
+                            </p>
+                        </div>
+                        <div colspan="1" style="flex-basis: calc(100% - 30px); max-width: calc(100% - 30px); padding: 0px;" class="css-1499lde e1gj2pfq0">
+                            <img src="https://i.ibb.co/4mMX2Lc/information-button.png" width="100" height="100">
+                            <p class="css-1x7pttn">
+                                교내 식당에 대해 모르시는 분들은 식당 정보를 눌러 정보를 알 수 있어요
+                            </p>
+                        </div>    
                         <div class="flex flex-col justify-center space-y-4">
                             <div class="highlight text-gray-700 dark:text-gray-300">이용 방법</div>
                             <h2 class="text-3xl font-bold tracking-tighter sm:text-5xl text-gray-900 dark:text-gray-100">한끼줍쇼 이용하는 방법</h2>
@@ -177,6 +215,7 @@
                             </p>
                         </div>
                     </div>
+                    
                 </div>
             </section>
             <section class="w-full py-12 md:py-24 lg:py-32 bg-gray-100 dark:bg-gray-800">
@@ -225,10 +264,12 @@
             </section>
         </main>
         <footer class="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t border-gray-200 dark:border-gray-700">
-            <p class="text-xs text-gray-500 dark:text-gray-400">© 2024 한끼줍쇼. All rights reserved.</p>
-            <nav class="sm:ml-auto flex gap-4 sm:gap-6">
-            </nav>
+            <div class="container mx-auto text-center">
+                <p>&copy; 2024 한끼줍쇼. All rights reserved.</p>
+                <p class="text-sm">Contact us: info@hankkijubshow.com</p>
+            </div>
         </footer>
+        
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
