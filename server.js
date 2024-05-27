@@ -471,9 +471,15 @@ app.get('/logout', function (요청, 응답) {
 app.get('/mypage', 로그인했니, function (요청, 응답) {   // 미들웨어 씀
     console.log(요청.user);
 
+    let 생성시간;
+    db.collection('login').findOne({_id: 요청.user._id}, function(에러, 결과) {
+        // _id 필드의 타임스탬프 추출
+        생성시간 = new ObjectId(결과._id).getTimestamp();
+        console.log('문서 생성 시간:', 생성시간);
+    });
     db.collection('post').find({작성자: 요청.user._id}).toArray(function (에러, 결과) {
         console.log(결과);
-        응답.render('mypage.ejs', { 사용자: 요청.user, posts: 결과 });
+        응답.render('mypage.ejs', { user: 요청.user, posts: 결과, makeAccountTime: 생성시간 });
     });
 });
 
