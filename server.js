@@ -290,7 +290,7 @@ cron.schedule('0 1 * * 0', async () => {
 
 // /로 들어오면 index.ejs 보내줌
 app.get('/', function (요청, 응답) {
-    응답.render('index.ejs');
+    응답.render('index.ejs', {isLoggedIn});
 });
 
 // /menu로 들어오면 menu.ejs 보내줌
@@ -323,15 +323,15 @@ app.get('/menu', async (req, res) => {
     today_hufs_res_dinner = hufs_res_dinner_result.hufs_res_dinner[dayOfWeek];
 
     res.render('menu.ejs', { "stu_res": today_stu_res, "prof_res": today_prof_res, "hufs_res": today_hufs_res, 
-    "stu_res_dinner": today_stu_res_dinner, "hufs_res_breakfast": today_hufs_res_breakfast, "hufs_res_dinner": today_hufs_res_dinner, "GoogleMapApiKey": process.env.GOOGLE_MAP_API_KEY});
+    "stu_res_dinner": today_stu_res_dinner, "hufs_res_breakfast": today_hufs_res_breakfast, "hufs_res_dinner": today_hufs_res_dinner, "GoogleMapApiKey": process.env.GOOGLE_MAP_API_KEY, isLoggedIn});
 });
 
 app.get('/subscribe', (요청, 응답) => {
-    응답.render('mail.ejs');
+    응답.render('mail.ejs', {isLoggedIn});
 })
 
 app.get('/info', (요청, 응답) => {
-    응답.render('info.ejs', {"GoogleMapApiKey": process.env.GOOGLE_MAP_API_KEY});
+    응답.render('info.ejs', {"GoogleMapApiKey": process.env.GOOGLE_MAP_API_KEY, isLoggedIn});
 })
 
 // /subscribe로 post 요청 받으면
@@ -412,7 +412,7 @@ cron.schedule('0 10 * * *', async () => {
 
 // /register로 들어오면 register.ejs 보내줌
 app.get('/register', function (요청, 응답) {
-    응답.render('register.ejs');
+    응답.render('register.ejs', {isLoggedIn});
 })
 // register로 post 요청 받았을 때
 app.post('/register', function (요청, 응답) {
@@ -439,14 +439,18 @@ app.post('/register', function (요청, 응답) {
 
 // /login으로 들어오면 login.ejs 보내줌
 app.get('/login', function (요청, 응답) {
-    응답.render('login.ejs');
+    응답.render('login.ejs', {isLoggedIn});
 })
+
+// 사용자의 로그인 상태를 저장하는 변수
+let isLoggedIn = false;
 
 // login으로 post 요청 받았을 때
 app.post('/login', passport.authenticate('local', { // 미들웨어 씀
     failureRedirect: '/fail',
     failureFlash: true
 }), function (요청, 응답) {
+    isLoggedIn = true;
     응답.redirect('/');
 });
 
@@ -454,7 +458,7 @@ app.post('/login', passport.authenticate('local', { // 미들웨어 씀
 app.get('/fail', function (요청, 응답) {
     // passport가 추가한 flash 메시지를 가져옴
     const flashMessage = 요청.flash('error')[0]; // 첫 번째 에러 메시지만 가져옴
-    응답.render('login.ejs', { message: "틀렸습니다. 다시 입력하세요:)" });
+    응답.render('login.ejs', { message: "틀렸습니다. 다시 입력하세요:)" , isLoggedIn});
 });
 
 // logout으로 get 요청 받았을 때
@@ -463,6 +467,7 @@ app.get('/logout', function (요청, 응답) {
         if (에러) {
             return 에러.status(500).send('Error occurred during logout');
         }
+        isLoggedIn = false;
         응답.redirect('/');
     });
 });
@@ -478,7 +483,7 @@ app.get('/mypage', 로그인했니, function (요청, 응답) {   // 미들웨�
         console.log('문서 생성 시간:', 생성시간);
         db.collection('post').find({작성자: 요청.user._id}).toArray(function (에러, 결과2) {
             console.log(결과2);
-            응답.render('mypage.ejs', { user: 요청.user, posts: 결과2, makeAccountTime: 생성시간 });
+            응답.render('mypage.ejs', { user: 요청.user, posts: 결과2, makeAccountTime: 생성시간, isLoggedIn });
         });
     });
 
@@ -539,7 +544,7 @@ passport.deserializeUser(function (아이디, done) {
 app.get('/edit/:id', function (요청, 응답) {
     db.collection('post').findOne({ _id: parseInt(요청.params.id) }, function (에러, 결과) {
         console.log(결과);
-        응답.render('edit.ejs', { post: 결과 });
+        응답.render('edit.ejs', { post: 결과, isLoggedIn});
     });
 });
 // edit으로 put 요청 받았을 때
@@ -599,7 +604,7 @@ app.delete('/delete', function (요청, 응답) {
 app.get('/list', 로그인했니, function (요청, 응답) {
     // DB에 저장된 post라는 collection안의 모든 데이터를 list.ejs로 보내고 띄워라
     db.collection('post').find().toArray(function (에러, 결과) {
-        응답.render('list.ejs', { posts: 결과, user: 요청.user });
+        응답.render('list.ejs', { posts: 결과, user: 요청.user, isLoggedIn });
     });
 });
 
@@ -622,9 +627,9 @@ app.get('/search', (요청, 응답) => {
     // 검색조건에 맞는 것들을 모두 가져와 list.ejs로 전달
     db.collection('post').aggregate(검색조건).toArray((에러, 결과) => {
         console.log(결과);
-        응답.render('list.ejs', { posts : 결과, user: 요청.user});
+        응답.render('list.ejs', { posts : 결과, user: 요청.user, isLoggedIn});
     });
 });
 app.get('/FAQ', function(요청, 응답) {
-    응답.render('FAQ.ejs');
+    응답.render('FAQ.ejs', {isLoggedIn});
 })
