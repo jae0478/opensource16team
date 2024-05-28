@@ -372,12 +372,12 @@ cron.schedule('0 10 * * *', async () => {
 
         // OAuth 2.0 클라이언트 생성
         const oAuth2Client = new google.auth.OAuth2(process.env.GMAIL_OAUTH_CLIENT_ID, process.env.GMAIL_OAUTH_CLIENT_SECRET, process.env.GMAIL_OAUTH_REDIRECT_URI);
+        
+        // 저장된 리프레시 토큰으로 액세스 토큰을 갱신
         oAuth2Client.setCredentials({ refresh_token: process.env.GMAIL_OAUTH_REFRESH_TOKEN });
+        const { token } = await oAuth2Client.getAccessToken();
 
         for (let subscriber of subscribers) {
-            // OAuth 2.0로 토큰 갱신
-            const accessToken = await oAuth2Client.getAccessToken();
-
             // Send email logic
             const transporter = nodemailer.createTransport({
                 service: 'gmail',
@@ -387,7 +387,7 @@ cron.schedule('0 10 * * *', async () => {
                     clientId: process.env.GMAIL_OAUTH_CLIENT_ID,
                     clientSecret: process.env.GMAIL_OAUTH_CLIENT_SECRET,
                     refreshToken: process.env.GMAIL_OAUTH_REFRESH_TOKEN,
-                    accessToken: accessToken,
+                    accessToken: token,
                 },
             });
 
