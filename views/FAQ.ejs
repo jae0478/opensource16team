@@ -99,14 +99,9 @@
 
 <body class="bg-gray-100 dark:bg-gray-900">
     <div class="flex flex-col min-h-screen">
-        <header class="px-4 lg:px-6 h-14 flex items-center bg-[#F79F81] text-white">
+        <header class="px-4 lg:px-6 h-14 flex items-center text-white" style="background-color: #F79F81; text-shadow: -1px 0px 1px black, 0px 1px 1px black, 1px 1px 1px black, 0px -1px 1px black;">
             <a class="flex items-center justify-center" href="/">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                    class="h-6 w-6 text-white">
-                    <path d="m8 3 4 8 5-5 5 15H2L8 3z"></path>
-                </svg>
-                <span class="sr-only">한끼줍쇼</span>
+                <span style="font-size: 22px;">한끼줍쇼</span>
             </a>
             <nav class="ml-auto flex gap-4 sm:gap-6">
                 <a class="text-sm font-medium hover:text-gray-200 no-underline" href="/menu">학식 메뉴</a>
@@ -121,26 +116,23 @@
             </nav>
         </header>
         <main class="flex-1">
-            <!-- 기존 섹션들... -->
-
-            <!-- 이메일 구독 섹션 -->
-            <section class="w-full py-12 md:py-24 lg:py-32 xl:py-48 bg-gradient-to-b text-black">
-                <div class="container px-4 md:px-6 max-w-4xl mx-auto">
-                    <div class="space-y-4 text-center">
-                        <h1 class="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">자주 묻는 질문</h1>
+            <section class="w-full py-6 md:py-12 lg:py-16 xl:py-24 bg-gradient-to-b text-black">
+                <div class="container max-w-4xl mx-auto p-0" style="border: 2px solid #F79F81; border-radius: 24px;">
+                    <div class="space-y-4 text-center" style="background-color: #F79F81; border-top-left-radius: 20px; border-top-right-radius: 20px; height: 50px;">
+                        <h1 class="text-3xl tracking-tighter sm:text-4xl md:text-5xl text-white" style="font-size: 30px; padding: 10px; color: white; text-shadow: -1px 0px 1px black, 0px 1px 1px black, 1px 1px 1px black, 0px -1px 1px black;">자주 묻는 질문 (FAQ)</h1>
                         <p class="text-gray-500 dark:text-gray-400 max-w-[600px] mx-auto">
                             궁금한 점이 있나요? 아래 자주 묻는 질문을 확인해보세요.
                         </p>
                     </div>
-                    <div class="mt-12 space-y-4">
+                    <div class="mt-12 space-y-4 p-4">
                         <div data-orientation="vertical">
                             <div data-state="closed" data-orientation="vertical" class="border-b">
                                 <h3 data-orientation="vertical" data-state="closed" class="flex">
                                     <button type="button" aria-controls="radix-1" aria-expanded="false" data-state="closed"
                                         data-orientation="vertical" id="radix-button-1"
-                                        class="flex flex-1 items-center justify-between py-4 transition-all hover:underline text-base font-medium"
+                                        class="flex flex-1 items-center justify-between py-4 transition-all text-base font-light"
                                         onclick="toggleAccordion('radix-1')">
-                                        제품 배송은 얼마나 걸리나요?
+                                        구독료를 내야하나요?
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                             stroke-linejoin="round"
@@ -150,17 +142,17 @@
                                     </button>
                                 </h3>
                                 <div data-state="closed" id="radix-1" role="region" aria-labelledby="radix-button-1"
-                                    data-orientation="vertical" class="accordion-content text-sm">
-                                    <p class="py-4">제품 배송은 보통 3-5일 정도 소요됩니다.</p>
+                                    data-orientation="vertical" class="accordion-content text-sm text-gray-500">
+                                    <p class="py-4">저희 플랫폼은 모든 기능을 무료로 제공해드리고 있습니다.</p>
                                 </div>
                             </div>
                             <div data-state="closed" data-orientation="vertical" class="border-b">
                                 <h3 data-orientation="vertical" data-state="closed" class="flex">
                                     <button type="button" aria-controls="radix-2" aria-expanded="false" data-state="closed"
                                         data-orientation="vertical" id="radix-button-2"
-                                        class="flex flex-1 items-center justify-between py-4 transition-all hover:underline text-base font-medium"
+                                        class="flex flex-1 items-center justify-between py-4 transition-all text-base font-light"
                                         onclick="toggleAccordion('radix-2')">
-                                        반품 및 환불 정책은 어떻게 되나요?
+                                        회원가입을 해야지만 구독 기능을 사용할 수 있나요?
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                             stroke-linejoin="round"
@@ -170,17 +162,17 @@
                                     </button>
                                 </h3>
                                 <div data-state="closed" id="radix-2" role="region" aria-labelledby="radix-button-2"
-                                    data-orientation="vertical" class="accordion-content text-sm">
-                                    <p class="py-4">반품 및 환불은 제품 수령 후 7일 이내에 가능합니다.</p>
+                                    data-orientation="vertical" class="accordion-content text-sm text-gray-500">
+                                    <p class="py-4">사용자들의 수많은 경험을 위해 회원가입 없이도 구독 기능을 사용하실 수 있도록 설정해 접근성을 높였습니다.</p>
                                 </div>
                             </div>
                             <div data-state="closed" data-orientation="vertical" class="border-b">
                                 <h3 data-orientation="vertical" data-state="closed" class="flex">
                                     <button type="button" aria-controls="radix-3" aria-expanded="false" data-state="closed"
                                         data-orientation="vertical" id="radix-button-3"
-                                        class="flex flex-1 items-center justify-between py-4 transition-all hover:underline text-base font-medium"
+                                        class="flex flex-1 items-center justify-between py-4 transition-all text-base font-light"
                                         onclick="toggleAccordion('radix-3')">
-                                        제품 A와 제품 B의 차이점은 무엇인가요?
+                                        글을 쓸 때 작성자의 이름이 노출되지 않나요?
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                             stroke-linejoin="round"
@@ -190,17 +182,17 @@
                                     </button>
                                 </h3>
                                 <div data-state="closed" id="radix-3" role="region" aria-labelledby="radix-button-3"
-                                    data-orientation="vertical" class="accordion-content text-sm">
-                                    <p class="py-4">제품 A는 기본 모델이며, 제품 B는 추가 기능이 포함된 모델입니다.</p>
+                                    data-orientation="vertical" class="accordion-content text-sm text-gray-500">
+                                    <p class="py-4">저희는 모든 사용자들을 익명으로 처리하여 나타내고 있습니다.</p>
                                 </div>
                             </div>
                             <div data-state="closed" data-orientation="vertical" class="border-b">
                                 <h3 data-orientation="vertical" data-state="closed" class="flex">
                                     <button type="button" aria-controls="radix-4" aria-expanded="false" data-state="closed"
                                         data-orientation="vertical" id="radix-button-4"
-                                        class="flex flex-1 items-center justify-between py-4 transition-all hover:underline text-base font-medium"
+                                        class="flex flex-1 items-center justify-between py-4 transition-all text-base font-light"
                                         onclick="toggleAccordion('radix-4')">
-                                        주문 취소 및 변경은 어떻게 하나요?
+                                        어떤 방식으로 보안에 신경 썼나요?
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                             stroke-linejoin="round"
@@ -210,17 +202,17 @@
                                     </button>
                                 </h3>
                                 <div data-state="closed" id="radix-4" role="region" aria-labelledby="radix-button-4"
-                                    data-orientation="vertical" class="accordion-content text-sm">
-                                    <p class="py-4">주문 취소 및 변경은 주문 후 24시간 이내에 가능합니다.</p>
+                                    data-orientation="vertical" class="accordion-content text-sm text-gray-500">
+                                    <p class="py-4">비밀번호를 해시함수를 이용해 저장하여 보안을 강화했습니다.</p>
                                 </div>
                             </div>
                             <div data-state="closed" data-orientation="vertical" class="border-b">
                                 <h3 data-orientation="vertical" data-state="closed" class="flex">
                                     <button type="button" aria-controls="radix-5" aria-expanded="false" data-state="closed"
                                         data-orientation="vertical" id="radix-button-5"
-                                        class="flex flex-1 items-center justify-between py-4 transition-all hover:underline text-base font-medium"
+                                        class="flex flex-1 items-center justify-between py-4 transition-all text-base font-light"
                                         onclick="toggleAccordion('radix-5')">
-                                        제품 A의 A/S는 어떻게 받을 수 있나요?
+                                        메뉴 데이터를 어디서 가져오고 어떤 방식으로 화면에 렌더링 하나요?
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                             stroke-linejoin="round"
@@ -230,8 +222,8 @@
                                     </button>
                                 </h3>
                                 <div data-state="closed" id="radix-5" role="region" aria-labelledby="radix-button-5"
-                                    data-orientation="vertical" class="accordion-content text-sm">
-                                    <p class="py-4">제품 A의 A/S는 고객 지원 센터에 문의하여 받을 수 있습니다.</p>
+                                    data-orientation="vertical" class="accordion-content text-sm text-gray-500">
+                                    <p class="py-4">학교 웹사이트에서 매주 일요일 01시에 일주일치 데이터를 가져온 후 DB에 업데이트하고, 매일매일의 요일에 맞는 메뉴를 DB에서 뽑아 화면에 렌더링합니다.</p>
                                 </div>
                             </div>
                             
@@ -239,9 +231,9 @@
                                 <h3 data-orientation="vertical" data-state="closed" class="flex">
                                     <button type="button" aria-controls="radix-6" aria-expanded="false" data-state="closed"
                                         data-orientation="vertical" id="radix-button-6"
-                                        class="flex flex-1 items-center justify-between py-4 transition-all hover:underline text-base font-medium"
+                                        class="flex flex-1 items-center justify-between py-4 transition-all text-base font-light"
                                         onclick="toggleAccordion('radix-6')">
-                                        항목 제목을 입력하세요
+                                        이 플랫폼을 이용했을 때 얻는 이점은 무엇이 있나요?
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                                             class="h-4 w-4 shrink-0 transition-transform duration-200 icon-radix">
@@ -250,11 +242,32 @@
                                     </button>
                                 </h3>
                                 <div data-state="closed" id="radix-6" role="region" aria-labelledby="radix-button-6"
-                                    data-orientation="vertical" class="accordion-content text-sm">
-                                    <p class="py-4">항목 내용을 입력하세요.</p>
+                                    data-orientation="vertical" class="accordion-content text-sm text-gray-500">
+                                    <p class="py-4">그날의 메뉴를 확인할 때 학교 어플을 직접 들어가서 확인하는 번거로움을 줄이고 이메일로 자동화하여 이용자들의 편의성을 증대시켰습니다. 
+                                        또한 게시글들을 확인하여 그날의 메뉴 중 학생들의 평가가 좋은 메뉴를 골라 먹을 수 있습니다. 
+                                    </p>
                                 </div>
                             </div>
-                            
+                            <div data-state="closed" data-orientation="vertical">
+                                <h3 data-orientation="vertical" data-state="closed" class="flex">
+                                    <button type="button" aria-controls="radix-7" aria-expanded="false" data-state="closed"
+                                        data-orientation="vertical" id="radix-button-7"
+                                        class="flex flex-1 items-center justify-between py-4 transition-all text-base font-light"
+                                        onclick="toggleAccordion('radix-7')">
+                                        메일로 메뉴 알림을 받을 때 아침, 점심, 저녁 다 알림을 받을 수 있나요?
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                            class="h-4 w-4 shrink-0 transition-transform duration-200 icon-radix">
+                                            <path d="m6 9 6 6 6-6"></path>
+                                        </svg>
+                                    </button>
+                                </h3>
+                                <div data-state="closed" id="radix-7" role="region" aria-labelledby="radix-button-7"
+                                    data-orientation="vertical" class="accordion-content text-sm text-gray-500">
+                                    <p class="py-4"> 저희는 가장 이용자들이 많은 점심 시간의 메뉴만 이메일로 보내고 있습니다. 그러나 전체 메뉴를 보고 싶다면 저희 웹사이트를 이용하실 수 있습니다.
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
