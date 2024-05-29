@@ -296,8 +296,13 @@ app.get('/', function (요청, 응답) {
 // /menu로 들어오면 menu.ejs 보내줌
 app.get('/menu', async (req, res) => {
     // 오늘 요일에 따라 db에서 오늘의 메뉴를 가져옴
+    // const today = new Date();
+    // const dayOfWeek = today.getDay();
+
     const today = new Date();
-    const dayOfWeek = today.getDay();
+    const offset = 9 * 60 * 60 * 1000; // 9시간을 밀리초로 변환
+    const newDate = new Date(today.getTime() + offset);
+    const dayOfWeek = newDate.getDay(); // 새로운 날짜의 요일 가져오기
 
     let today_stu_res;
     let today_prof_res;
@@ -354,8 +359,12 @@ app.post('/subscribe', (req, res) => {
 cron.schedule('0 10 * * *', async () => {
     try {
         // 오늘 요일에 따라 db에서 오늘의 메뉴를 가져옴
+        // const today = new Date();
+        // const dayOfWeek = today.getDay();
         const today = new Date();
-        const dayOfWeek = today.getDay();
+        const offset = 9 * 60 * 60 * 1000; // 9시간을 밀리초로 변환
+        const newDate = new Date(today.getTime() + offset);
+        const dayOfWeek = newDate.getDay(); // 새로운 날짜의 요일 가져오기
 
         const stu_res_result = await db.collection('stu_res').findOne({ _id: 1 });
         const prof_res_result = await db.collection('prof_res').findOne({ _id: 1 });
@@ -562,7 +571,11 @@ app.post('/add', function (요청, 응답) {
     console.log(요청.user);
     // DB에 저장
     db.collection('counter').findOne({ name: '게시물갯수' }, function (에러, 결과) {
-        const now = new Date();
+        // const now = new Date();
+        const today = new Date();
+        const offset = 9 * 60 * 60 * 1000; // 9시간을 밀리초로 변환
+        const now = new Date(today.getTime() + offset);
+
         const year = now.getFullYear();
         const month = now.getMonth() + 1; // 월은 0부터 시작하므로 +1 해줍니다.
         const day = now.getDate();
