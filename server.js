@@ -428,13 +428,13 @@ app.post('/register', function (요청, 응답) {
     db.collection('login').findOne({ id: 요청.body.id }, function (에러, 결과) {
         if (에러) { 응답.send('에러입니다') }
         else if (결과) {
-            응답.render('register.ejs', {message : '이미 존재하는 아이디입니다.'});
+            응답.render('register.ejs', {message : '이미 존재하는 아이디입니다.', isLoggedIn});
         }
         else if (!/^[A-Za-z]+$/.test(요청.body.id)) {
-            응답.render('register.ejs', {message : '아이디는 영어만 입력할 수 있습니다.'});
+            응답.render('register.ejs', {message : '아이디는 영어만 입력할 수 있습니다.', isLoggedIn});
         }
         else if (!/^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[\W_]).{8,}$/.test(요청.body.pw)) {
-            응답.render('register.ejs', {message : '비밀번호는 8자리 이상이며 영어와 숫자, 특수기호를 모두 포함해야 합니다.'});
+            응답.render('register.ejs', {message : '비밀번호는 8자리 이상이며 영어와 숫자, 특수기호를 모두 포함해야 합니다.', isLoggedIn});
         }
         else {
             // 비번 암호화해서 저장
