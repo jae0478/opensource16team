@@ -278,7 +278,7 @@ function parseMenuContentForHufsDorm_dinner(content) {
 
 
 // 매주 일요일 01시에 db(메뉴) 업데이트
-cron.schedule('0 1 * * 0', async () => {
+cron.schedule('30 9 * * 0', async () => {
     // 여기에 실행하려는 코드를 넣으세요
     await student_restaurant(); // 후생관 학생식당
     await professor_restaurant();   // 후생관 교직원식당
